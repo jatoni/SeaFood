@@ -1,0 +1,78 @@
+package com.mx.sea.food.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the tb_warehouseoutlet database table.
+ * 
+ */
+@Entity
+@Table(name="tb_warehouseoutlet")
+@NamedQuery(name="TbWarehouseoutlet.findAll", query="SELECT t FROM TbWarehouseoutlet t")
+public class TbWarehouseoutlet implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+
+	private int date;
+
+	private int quantity;
+
+	//bi-directional many-to-one association to TbEmployee
+	@ManyToOne
+	@JoinColumn(name="id_employee")
+	private TbEmployee tbEmployee;
+
+	//bi-directional many-to-one association to TbItem
+	@ManyToOne
+	@JoinColumn(name="id_item")
+	private TbItem tbItem;
+
+	public TbWarehouseoutlet() {
+	}
+
+	public long getId() {
+		return this.id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public int getDate() {
+		return this.date;
+	}
+
+	public void setDate(int date) {
+		this.date = date;
+	}
+
+	public int getQuantity() {
+		return this.quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public TbEmployee getTbEmployee() {
+		return this.tbEmployee;
+	}
+
+	public void setTbEmployee(TbEmployee tbEmployee) {
+		this.tbEmployee = tbEmployee;
+	}
+
+	public TbItem getTbItem() {
+		return this.tbItem;
+	}
+
+	public void setTbItem(TbItem tbItem) {
+		this.tbItem = tbItem;
+	}
+
+}
