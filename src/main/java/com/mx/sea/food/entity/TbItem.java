@@ -23,6 +23,9 @@ public class TbItem implements Serializable {
 
 	private String description;
 
+	@Column(name="item_name")
+	private String itemName;
+
 	private int stock;
 
 	//bi-directional many-to-one association to TbIncome
@@ -63,6 +66,14 @@ public class TbItem implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getItemName() {
+		return this.itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 
 	public int getStock() {
