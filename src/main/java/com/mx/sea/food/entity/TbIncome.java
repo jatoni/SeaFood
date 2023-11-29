@@ -23,12 +23,12 @@ public class TbIncome implements Serializable {
 	private int quantity;
 
 	//bi-directional many-to-one association to TbEmployee
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_employee")
 	private TbEmployee tbEmployee;
 
 	//bi-directional many-to-one association to TbItem
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_item")
 	private TbItem tbItem;
 

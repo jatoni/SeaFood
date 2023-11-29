@@ -30,7 +30,7 @@ public class TbItem implements Serializable {
 	private List<TbIncome> tbIncomes;
 
 	//bi-directional many-to-one association to TbPiecepackage
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_piecePackage")
 	private TbPiecepackage tbPiecepackage;
 

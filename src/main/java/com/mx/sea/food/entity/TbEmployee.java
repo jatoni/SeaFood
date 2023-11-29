@@ -30,12 +30,12 @@ public class TbEmployee implements Serializable {
 	private String username;
 
 	//bi-directional many-to-one association to TbRole
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_role")
 	private TbRole tbRole;
 
 	//bi-directional many-to-one association to TbTypework
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_typeWork")
 	private TbTypework tbTypework;
 
