@@ -6,7 +6,7 @@ package com.mx.sea.food.SeaFood;
  */
 public class App {
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
+		
 
 	}
 }
