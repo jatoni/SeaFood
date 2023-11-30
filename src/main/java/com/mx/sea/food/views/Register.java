@@ -49,6 +49,7 @@ import java.awt.event.MouseEvent;
 import java.awt.Cursor;
 import java.awt.Window.Type;
 import javax.swing.border.LineBorder;
+import javax.swing.ImageIcon;
 
 public class Register {
 
@@ -130,7 +131,7 @@ public class Register {
 		JLabel lblNewLabel_3 = new JLabel("Apellidos: ");
 
 		Apellidos = new JTextField();
-		Apellidos.setToolTipText("Ingresa tu nombre o nombres");
+		Apellidos.setToolTipText("Ingresa tus apellidos");
 		Apellidos.setColumns(10);
 		Apellidos.setBorder(UIManager.getBorder("List.noFocusBorder"));
 		Apellidos.setBackground(SystemColor.window);
@@ -138,13 +139,13 @@ public class Register {
 		JLabel lblNewLabel_3_1 = new JLabel("Username:");
 
 		Username = new JTextField();
-		Username.setToolTipText("Ingresa tu nombre o nombres");
+		Username.setToolTipText("Ingresa tu username");
 		Username.setColumns(10);
 		Username.setBorder(UIManager.getBorder("List.noFocusBorder"));
 		Username.setBackground(SystemColor.window);
 
 		Email = new JTextField();
-		Email.setToolTipText("Ingresa tu nombre o nombres");
+		Email.setToolTipText("Ingresa tu email");
 		Email.setColumns(10);
 		Email.setBorder(UIManager.getBorder("List.noFocusBorder"));
 		Email.setBackground(SystemColor.window);
@@ -172,6 +173,7 @@ public class Register {
 		List<String> rolesName = new ArrayList<String>();
 		roles.forEach(rol -> rolesName.add(rol.getName()));
 		ComboRol = new JComboBox(rolesName.toArray());
+		ComboRol.setToolTipText("Escoge un rol\r\n");
 		ComboRol.setBorder(null);
 
 		JLabel lblNewLabel_3_1_1_1_1_1 = new JLabel("Rol:");
@@ -182,6 +184,7 @@ public class Register {
 		List<String> typesName = new ArrayList<String>();
 		types.forEach(type -> typesName.add(type.getName()));
 		JComboBox TypeWorkCombo = new JComboBox(typesName.toArray());
+		TypeWorkCombo.setToolTipText("Escoge tu rol de trabajo");
 
 		TypeWorkCombo.setBorder(null);
 
@@ -332,15 +335,30 @@ public class Register {
 
 		JLabel lblNewLabel_2_1 = new JLabel("REGISTRAR EMPLEADO");
 		lblNewLabel_2_1.setFont(new Font("Arial", Font.BOLD, 17));
+		
+		JLabel lblNewLabel_2 = new JLabel("New label");
+		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\jat_a\\eclipse-workspace\\SeaFood\\src\\main\\resources\\Mariscos(1).jpg"));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup().addContainerGap()
-						.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(14, Short.MAX_VALUE)));
-		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup().addGap(102)
-						.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(245, Short.MAX_VALUE)));
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(14, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+					.addContainerGap(32, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE)
+					.addGap(31))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(102)
+					.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(88, Short.MAX_VALUE))
+		);
 		panel_1.setLayout(gl_panel_1);
 		frame.getContentPane().setLayout(groupLayout);
 
