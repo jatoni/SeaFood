@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import com.mx.sea.food.dao.EmployeeDao;
 import com.mx.sea.food.dao.RoleDao;
@@ -53,6 +54,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		} finally {
 			em.close();
 		}
+	}
+
+	@Override
+	public boolean existUsername(String username) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+
+		TypedQuery<TbEmployee> usuario = (TypedQuery<TbEmployee>) em
+				.createQuery("FROM TbEmployee t WHERE t.username = :user");
+		usuario.setParameter("user", username);
+		if (usuario.getResultList().size() > 0)
+			return true;
+		return false;
 	}
 
 }

@@ -2,7 +2,6 @@ package com.mx.sea.food.controllers;
 
 import java.util.List;
 
-
 import com.mx.sea.food.dao.EmployeeDao;
 import com.mx.sea.food.dao.RoleDao;
 import com.mx.sea.food.dao.TypeWorkDao;
@@ -30,6 +29,13 @@ public class RegisterController {
 		if (this.employeeDaoImpl.saveEmployee(employeeDto)) {
 			return true;
 		}
+		return false;
+	}
+
+	public boolean isUserName(String username) {
+		boolean status = this.employeeDaoImpl.existUsername(username);
+		if (status)
+			return true;
 		return false;
 	}
 
