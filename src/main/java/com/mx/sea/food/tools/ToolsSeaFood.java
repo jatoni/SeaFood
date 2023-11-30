@@ -11,10 +11,10 @@ import org.modelmapper.ModelMapper;
  */
 public class ToolsSeaFood {
 
-	private static ModelMapper mapper;
+	private final static ModelMapper mapper = new ModelMapper();
 
 	public ToolsSeaFood() {
-		mapper = new ModelMapper();
+
 	}
 
 	public static <T1, T2> T2 map(T1 object, T2 objectClass) {

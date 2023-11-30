@@ -31,7 +31,7 @@ public class TypeWorkDaoImpl implements TypeWorkDao {
 	@Override
 	public TbTypework findById(Long id) {
 		TbTypework tbTypework = em.find(TbTypework.class, id);
-		return null;
+		return tbTypework;
 	}
 
 	@Override
