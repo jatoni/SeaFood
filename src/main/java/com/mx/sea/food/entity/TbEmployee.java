@@ -4,19 +4,18 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the tb_employee database table.
  * 
  */
 @Entity
-@Table(name="tb_employee")
-@NamedQuery(name="TbEmployee.findAll", query="SELECT t FROM TbEmployee t")
+@Table(name = "tb_employee")
+@NamedQuery(name = "TbEmployee.findAll", query = "SELECT t FROM TbEmployee t")
 public class TbEmployee implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	private String email;
@@ -29,22 +28,22 @@ public class TbEmployee implements Serializable {
 
 	private String username;
 
-	//bi-directional many-to-one association to TbRole
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_role")
+	// bi-directional many-to-one association to TbRole
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_role")
 	private TbRole tbRole;
 
-	//bi-directional many-to-one association to TbTypework
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_typeWork")
+	// bi-directional many-to-one association to TbTypework
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_typeWork")
 	private TbTypework tbTypework;
 
-	//bi-directional many-to-one association to TbIncome
-	@OneToMany(mappedBy="tbEmployee")
+	// bi-directional many-to-one association to TbIncome
+	@OneToMany(mappedBy = "tbEmployee")
 	private List<TbIncome> tbIncomes;
 
-	//bi-directional many-to-one association to TbWarehouseoutlet
-	@OneToMany(mappedBy="tbEmployee")
+	// bi-directional many-to-one association to TbWarehouseoutlet
+	@OneToMany(mappedBy = "tbEmployee")
 	private List<TbWarehouseoutlet> tbWarehouseoutlets;
 
 	public TbEmployee() {
@@ -156,6 +155,33 @@ public class TbEmployee implements Serializable {
 		tbWarehouseoutlet.setTbEmployee(null);
 
 		return tbWarehouseoutlet;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TbEmployee [id=");
+		builder.append(id);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append(", lastName=");
+		builder.append(lastName);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", pass=");
+		builder.append(pass);
+		builder.append(", username=");
+		builder.append(username);
+		builder.append(", tbRole=");
+		builder.append(tbRole);
+		builder.append(", tbTypework=");
+		builder.append(tbTypework);
+		builder.append(", tbIncomes=");
+		builder.append(tbIncomes);
+		builder.append(", tbWarehouseoutlets=");
+		builder.append(tbWarehouseoutlets);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }
