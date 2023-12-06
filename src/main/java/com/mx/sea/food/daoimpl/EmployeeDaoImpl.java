@@ -55,6 +55,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			em.close();
 		}
 	}
+	
 
 	@Override
 	public boolean existUsername(String username) {
@@ -66,6 +67,21 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		if (usuario.getResultList().size() > 0)
 			return true;
 		return false;
+	}
+
+	@Override
+	public TbEmployee getEmployeeByEmailAndPassword(EmployeeDto employee) {
+		try {
+			EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+			TypedQuery<TbEmployee> usuario = (TypedQuery<TbEmployee>) em
+					.createQuery("FROM TbEmployee t WHERE t.email = :email AND t.pass = :pass");
+			usuario.setParameter("email", employee.getEmail());
+			usuario.setParameter("pass", employee.getPass());
+			return usuario.getResultStream().findFirst().orElse(null);
+		} catch (Exception e) {
+			return null;
+		}
+		
 	}
 
 }
