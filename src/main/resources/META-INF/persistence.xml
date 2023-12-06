@@ -17,10 +17,10 @@
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://seafood.ccztvquqgnar.us-east-1.rds.amazonaws.com:3306/seafood?serverTimezone=America/Mexico_City" />
-			<property name="javax.persistence.jdbc.user" value="admin" />
+				value="jdbc:mysql://192.99.154.142/seafood?serverTimezone=America/Mexico_City" />
+			<property name="javax.persistence.jdbc.user" value="program" />
 			<property name="javax.persistence.jdbc.password"
-				value="teamojuan" />
+				value="Program*2022" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.MySQL8Dialect" />
