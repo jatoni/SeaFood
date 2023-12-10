@@ -17,6 +17,9 @@ import com.mx.sea.food.entity.TbEmployee;
 
 import static com.mx.sea.food.tools.ToolsSeaFood.map;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  */
@@ -82,6 +85,20 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public List<TbEmployee> getAllEmployees() {
+		try {
+			EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+			TypedQuery<TbEmployee> usuarios = (TypedQuery<TbEmployee>) 
+					em.createNamedQuery("TbEmployee.findAll", TbEmployee.class);
+			List<TbEmployee> listEmployees = usuarios.getResultList();
+			if(!listEmployees.isEmpty()) return listEmployees;
+			return new ArrayList<TbEmployee>();
+		} catch (Exception e) {
+			return new ArrayList<TbEmployee>();
+		}
 	}
 
 }

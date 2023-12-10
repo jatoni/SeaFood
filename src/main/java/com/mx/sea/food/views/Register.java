@@ -54,11 +54,12 @@ import javax.swing.ImageIcon;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class Register {
-
-	private JFrame frame;
+public class Register extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private EmployeeDto employee;
-
 	private RegisterController _registroController;
 	private JTextField Nombres;
 	private JTextField Apellidos;
@@ -69,27 +70,14 @@ public class Register {
 	private JComboBox ComboRol;
 
 	/**
-	 * Launch the application.
-	 */
-	public void run() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Register window = new Register();
-					window.frame.setLocationRelativeTo(null);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public Register() {
-		initialize();
+		try {
+			initialize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -98,12 +86,13 @@ public class Register {
 	private void initialize() {
 		_registroController = new RegisterController();
 		this.employee = new EmployeeDto();
-		frame = new JFrame("Register");
-		frame.setUndecorated(true);
-		frame.setType(Type.POPUP);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 629, 407);
+		
+		this.setLocationRelativeTo(null);
+		this.setUndecorated(true);
+		this.setType(Type.POPUP);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setResizable(false);
+		this.setBounds(100, 100, 629, 407);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(new Rectangle(5, 5, 0, 0));
@@ -342,7 +331,7 @@ public class Register {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.activeCaption);
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(this.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
@@ -377,7 +366,7 @@ public class Register {
 						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(88, Short.MAX_VALUE)));
 		panel_1.setLayout(gl_panel_1);
-		frame.getContentPane().setLayout(groupLayout);
+		this.getContentPane().setLayout(groupLayout);
 
 	}
 

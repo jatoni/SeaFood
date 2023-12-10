@@ -17,9 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
-public class Dashboard {
+public class Dashboard extends JFrame {
 
-	private JFrame frame;
 	private EmployeeDto _employee;
 	Object[][] data = {};
 	String[] titulos = { "id", "Producto", "Fecha de Ingreso", "Tipos de producto", "Stock" };
@@ -27,27 +26,14 @@ public class Dashboard {
 	private DefaultTableModel productosmodeloTable;
 
 	/**
-	 * Launch the application.
-	 */
-	public void run(EmployeeDto employee) {
-		this._employee = employee;
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Dashboard window = new Dashboard();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
-	public Dashboard() {
-		initialize();
+	public Dashboard(EmployeeDto employee) {
+		try {
+			initialize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -56,10 +42,8 @@ public class Dashboard {
 	private void initialize() {
 
 		productostable = new JTable();
-
-		frame = new JFrame();
-		frame.setBounds(100, 100, 770, 510);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBounds(100, 100, 770, 510);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JMenu usuarios, productos;
 		JMenuBar mb = new JMenuBar();
@@ -75,7 +59,7 @@ public class Dashboard {
 
 		mb.add(usuarios);
 		mb.add(productos);
-		frame.setJMenuBar(mb);
+		this.setJMenuBar(mb);
 
 		productosmodeloTable = new DefaultTableModel(titulos, 0) {
 			@Override
@@ -84,11 +68,9 @@ public class Dashboard {
 			}
 		};
 
-		productostable = new JTable(productosmodeloTable);
-
 		JPanel panel = new JPanel();
 		panel.setBackground(UIManager.getColor("Button.shadow"));
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(this.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
 				Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
@@ -104,7 +86,7 @@ public class Dashboard {
 						.addComponent(productostable, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(114, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
-		frame.getContentPane().setLayout(groupLayout);
+		this.getContentPane().setLayout(groupLayout);
 
 	}
 }
