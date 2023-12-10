@@ -38,7 +38,7 @@ public class EmployeeDto {
 	@NotNull(message = "El apellido no puede ser nulo")
 	private String lastName;
 	
-	
+	private long id;
 	private String name;
 	private String username;
 	private String pass;

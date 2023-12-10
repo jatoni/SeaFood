@@ -17,35 +17,28 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
-public class Login {
-
-	private LoginController _loginController;
-	private EmployeeDto _employee;
-	private JFrame frame;
-	private JTextField textField;
-	private JPasswordField passwordField;
+public class Login extends JFrame{
 
 	/**
-	 * Launch the application.
+	 * 
 	 */
-	public void run() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login window = new Login();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private static final long serialVersionUID = 1L;
+	
+	private LoginController _loginController;
+	private EmployeeDto _employee;
+	private JTextField textField;
+	private JPasswordField passwordField;
 
 	/**
 	 * Create the application.
 	 */
 	public Login() {
-		initialize();
+		try {
+			initialize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -54,12 +47,12 @@ public class Login {
 	private void initialize() {
 		_loginController = new LoginController();
 		_employee = new EmployeeDto();
-		frame = new JFrame();
-		frame.setBounds(100, 100, 274, 420);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		this.setBounds(100, 100, 274, 420);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		this.getContentPane().add(panel, BorderLayout.CENTER);
 
 		JLabel lblNewLabel = new JLabel("Correo Electronico");
 		panel.add(lblNewLabel);
@@ -86,8 +79,8 @@ public class Login {
 					_employee.setPass(passwordField.getText());
 					_employee = _loginController.IniciarSesion(_employee);
 					if (_employee != null) {
-						new Dashboard().run(_employee);
-						frame.setVisible(false);
+						new Dashboard(_employee).setVisible(true);
+						closeWindow();
 					} else {
 						_employee = new EmployeeDto();
 						JOptionPane.showMessageDialog(null, "Usuario no encontrado");
@@ -98,13 +91,18 @@ public class Login {
 		panel.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Registrarse");
+		
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Register().run();
-				frame.setVisible(false);
+				new Register().setVisible(true);
+				closeWindow();
 			}
 		});
 		panel.add(btnNewButton_1);
+	}
+	
+	private void closeWindow() {
+		this.setVisible(false);
 	}
 
 }
