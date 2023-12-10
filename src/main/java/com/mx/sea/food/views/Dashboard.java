@@ -3,6 +3,7 @@ package com.mx.sea.food.views;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+<<<<<<< HEAD
 import javax.swing.JMenu;
 
 import com.mx.sea.food.dto.EmployeeDto;
@@ -14,6 +15,10 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+=======
+
+import com.mx.sea.food.dto.EmployeeDto;
+>>>>>>> 48b0998aa5904e71b937d84f6227b8adfde5bde7
 
 public class Dashboard {
 
@@ -49,6 +54,7 @@ public class Dashboard {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+<<<<<<< HEAD
 		frame.setBounds(100, 100, 770, 510);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -87,4 +93,10 @@ public class Dashboard {
 								});
 		frame.getContentPane().setLayout(groupLayout);
 	}
+=======
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+>>>>>>> 48b0998aa5904e71b937d84f6227b8adfde5bde7
 }
