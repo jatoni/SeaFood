@@ -9,5 +9,6 @@ import com.mx.sea.food.views.Register;
 public class App {
 	public static void main(String[] args) {
 		new Register();
+		
 	}
 }
