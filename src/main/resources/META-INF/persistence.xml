@@ -18,10 +18,9 @@
 				value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:mysql://192.99.154.142:3306/seafood?serverTimezone=America/Mexico_City" />
-			<property name="javax.persistence.jdbc.user"
-				value="juan_vps" />
+			<property name="javax.persistence.jdbc.user" value="program" />
 			<property name="javax.persistence.jdbc.password"
-				value="Juan*2022" />
+				value="Program*2022" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.MySQL8Dialect" />
