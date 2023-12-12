@@ -1,12 +1,8 @@
 package com.mx.sea.food.views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import java.awt.FlowLayout;
 import java.awt.Color;
 import javax.swing.JTextField;
 
@@ -23,23 +19,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import net.miginfocom.swing.MigLayout;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
 import java.awt.Rectangle;
@@ -47,14 +30,11 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
-import java.awt.Window.Type;
-import javax.swing.border.LineBorder;
-import javax.xml.registry.infomodel.User;
 import javax.swing.ImageIcon;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class Register extends JFrame{
+public class Register extends JFrame {
 	/**
 	 * 
 	 */
@@ -86,7 +66,7 @@ public class Register extends JFrame{
 	private void initialize() {
 		_registroController = new RegisterController();
 		this.employee = new EmployeeDto();
-		
+
 		this.setLocationRelativeTo(null);
 		this.setUndecorated(true);
 		this.setType(Type.POPUP);

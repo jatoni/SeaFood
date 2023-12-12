@@ -2,7 +2,7 @@ package com.mx.sea.food.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
 
 
 /**
@@ -19,27 +19,35 @@ public class TbItem implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 
-	private int date;
-
 	private String description;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="input_date")
+	private Date inputDate;
 
 	@Column(name="item_name")
 	private String itemName;
 
+	@Temporal(TemporalType.DATE)
+	@Column(name="output_date")
+	private Date outputDate;
+
 	private int stock;
 
-	//bi-directional many-to-one association to TbIncome
-	@OneToMany(mappedBy="tbItem")
-	private List<TbIncome> tbIncomes;
+	//bi-directional many-to-one association to TbEmployee
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="input_user_item")
+	private TbEmployee tbEmployee1;
+
+	//bi-directional many-to-one association to TbEmployee
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="output_user_item")
+	private TbEmployee tbEmployee2;
 
 	//bi-directional many-to-one association to TbPiecepackage
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_piecePackage")
 	private TbPiecepackage tbPiecepackage;
-
-	//bi-directional many-to-one association to TbWarehouseoutlet
-	@OneToMany(mappedBy="tbItem")
-	private List<TbWarehouseoutlet> tbWarehouseoutlets;
 
 	public TbItem() {
 	}
@@ -52,20 +60,20 @@ public class TbItem implements Serializable {
 		this.id = id;
 	}
 
-	public int getDate() {
-		return this.date;
-	}
-
-	public void setDate(int date) {
-		this.date = date;
-	}
-
 	public String getDescription() {
 		return this.description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Date getInputDate() {
+		return this.inputDate;
+	}
+
+	public void setInputDate(Date inputDate) {
+		this.inputDate = inputDate;
 	}
 
 	public String getItemName() {
@@ -76,6 +84,14 @@ public class TbItem implements Serializable {
 		this.itemName = itemName;
 	}
 
+	public Date getOutputDate() {
+		return this.outputDate;
+	}
+
+	public void setOutputDate(Date outputDate) {
+		this.outputDate = outputDate;
+	}
+
 	public int getStock() {
 		return this.stock;
 	}
@@ -84,26 +100,20 @@ public class TbItem implements Serializable {
 		this.stock = stock;
 	}
 
-	public List<TbIncome> getTbIncomes() {
-		return this.tbIncomes;
+	public TbEmployee getTbEmployee1() {
+		return this.tbEmployee1;
 	}
 
-	public void setTbIncomes(List<TbIncome> tbIncomes) {
-		this.tbIncomes = tbIncomes;
+	public void setTbEmployee1(TbEmployee tbEmployee1) {
+		this.tbEmployee1 = tbEmployee1;
 	}
 
-	public TbIncome addTbIncome(TbIncome tbIncome) {
-		getTbIncomes().add(tbIncome);
-		tbIncome.setTbItem(this);
-
-		return tbIncome;
+	public TbEmployee getTbEmployee2() {
+		return this.tbEmployee2;
 	}
 
-	public TbIncome removeTbIncome(TbIncome tbIncome) {
-		getTbIncomes().remove(tbIncome);
-		tbIncome.setTbItem(null);
-
-		return tbIncome;
+	public void setTbEmployee2(TbEmployee tbEmployee2) {
+		this.tbEmployee2 = tbEmployee2;
 	}
 
 	public TbPiecepackage getTbPiecepackage() {
@@ -112,28 +122,6 @@ public class TbItem implements Serializable {
 
 	public void setTbPiecepackage(TbPiecepackage tbPiecepackage) {
 		this.tbPiecepackage = tbPiecepackage;
-	}
-
-	public List<TbWarehouseoutlet> getTbWarehouseoutlets() {
-		return this.tbWarehouseoutlets;
-	}
-
-	public void setTbWarehouseoutlets(List<TbWarehouseoutlet> tbWarehouseoutlets) {
-		this.tbWarehouseoutlets = tbWarehouseoutlets;
-	}
-
-	public TbWarehouseoutlet addTbWarehouseoutlet(TbWarehouseoutlet tbWarehouseoutlet) {
-		getTbWarehouseoutlets().add(tbWarehouseoutlet);
-		tbWarehouseoutlet.setTbItem(this);
-
-		return tbWarehouseoutlet;
-	}
-
-	public TbWarehouseoutlet removeTbWarehouseoutlet(TbWarehouseoutlet tbWarehouseoutlet) {
-		getTbWarehouseoutlets().remove(tbWarehouseoutlet);
-		tbWarehouseoutlet.setTbItem(null);
-
-		return tbWarehouseoutlet;
 	}
 
 }

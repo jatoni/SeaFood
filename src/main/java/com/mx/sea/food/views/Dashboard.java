@@ -1,7 +1,5 @@
 package com.mx.sea.food.views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 
@@ -19,6 +17,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class Dashboard extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3975461486339003064L;
 	private EmployeeDto _employee;
 	Object[][] data = {};
 	String[] titulos = { "id", "Producto", "Fecha de Ingreso", "Tipos de producto", "Stock" };
@@ -75,16 +77,13 @@ public class Dashboard extends JFrame {
 				Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
 				Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE));
-
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGap(48)
-						.addComponent(productostable, GroupLayout.PREFERRED_SIZE, 656, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(50, Short.MAX_VALUE)));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGap(64)
-						.addComponent(productostable, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(114, Short.MAX_VALUE)));
+		gl_panel.setHorizontalGroup(
+				gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup().addGap(40)
+						.addComponent(productostable, GroupLayout.PREFERRED_SIZE, 656, GroupLayout.PREFERRED_SIZE)));
+		gl_panel.setVerticalGroup(
+				gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup().addGap(89)
+						.addComponent(productostable, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)));
 		panel.setLayout(gl_panel);
 		this.getContentPane().setLayout(groupLayout);
 

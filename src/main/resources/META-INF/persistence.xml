@@ -7,12 +7,10 @@
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>com.mx.sea.food.entity.TbEmployee</class>
-		<class>com.mx.sea.food.entity.TbIncome</class>
-		<class>com.mx.sea.food.entity.TbItem</class>
 		<class>com.mx.sea.food.entity.TbPiecepackage</class>
 		<class>com.mx.sea.food.entity.TbRole</class>
 		<class>com.mx.sea.food.entity.TbTypework</class>
-		<class>com.mx.sea.food.entity.TbWarehouseoutlet</class>
+		<class>com.mx.sea.food.entity.TbItem</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.cj.jdbc.Driver" />
