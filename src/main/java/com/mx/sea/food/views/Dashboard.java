@@ -14,6 +14,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Dashboard extends JFrame {
 
@@ -77,13 +80,23 @@ public class Dashboard extends JFrame {
 				Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
 				Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE));
+
+		JButton btnNewButton = new JButton("Agregar Productos");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new RegisterProducts().setVisible(true);
+			}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup().addGap(40)
-						.addComponent(productostable, GroupLayout.PREFERRED_SIZE, 656, GroupLayout.PREFERRED_SIZE)));
-		gl_panel.setVerticalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup().addGap(89)
-						.addComponent(productostable, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)));
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(40).addComponent(productostable,
+						GroupLayout.PREFERRED_SIZE, 656, GroupLayout.PREFERRED_SIZE))
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup().addContainerGap(532, Short.MAX_VALUE)
+						.addComponent(btnNewButton).addGap(133)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(89)
+						.addComponent(productostable, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
+						.addGap(32).addComponent(btnNewButton).addContainerGap(34, Short.MAX_VALUE)));
 		panel.setLayout(gl_panel);
 		this.getContentPane().setLayout(groupLayout);
 

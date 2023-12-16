@@ -3,6 +3,7 @@ package com.mx.sea.food.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -28,26 +29,21 @@ public class TbItem implements Serializable {
 	@Column(name="item_name")
 	private String itemName;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="output_date")
-	private Date outputDate;
-
 	private int stock;
 
 	//bi-directional many-to-one association to TbEmployee
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="input_user_item")
-	private TbEmployee tbEmployee1;
-
-	//bi-directional many-to-one association to TbEmployee
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="output_user_item")
-	private TbEmployee tbEmployee2;
+	private TbEmployee tbEmployee;
 
 	//bi-directional many-to-one association to TbPiecepackage
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_piecePackage")
 	private TbPiecepackage tbPiecepackage;
+
+	//bi-directional many-to-one association to Tb_takeOutCeller
+	@OneToMany(mappedBy="tbItem")
+	private List<Tb_takeOutCeller> tbTakeOutCellers;
 
 	public TbItem() {
 	}
@@ -84,14 +80,6 @@ public class TbItem implements Serializable {
 		this.itemName = itemName;
 	}
 
-	public Date getOutputDate() {
-		return this.outputDate;
-	}
-
-	public void setOutputDate(Date outputDate) {
-		this.outputDate = outputDate;
-	}
-
 	public int getStock() {
 		return this.stock;
 	}
@@ -100,20 +88,12 @@ public class TbItem implements Serializable {
 		this.stock = stock;
 	}
 
-	public TbEmployee getTbEmployee1() {
-		return this.tbEmployee1;
+	public TbEmployee getTbEmployee() {
+		return this.tbEmployee;
 	}
 
-	public void setTbEmployee1(TbEmployee tbEmployee1) {
-		this.tbEmployee1 = tbEmployee1;
-	}
-
-	public TbEmployee getTbEmployee2() {
-		return this.tbEmployee2;
-	}
-
-	public void setTbEmployee2(TbEmployee tbEmployee2) {
-		this.tbEmployee2 = tbEmployee2;
+	public void setTbEmployee(TbEmployee tbEmployee) {
+		this.tbEmployee = tbEmployee;
 	}
 
 	public TbPiecepackage getTbPiecepackage() {
@@ -122,6 +102,28 @@ public class TbItem implements Serializable {
 
 	public void setTbPiecepackage(TbPiecepackage tbPiecepackage) {
 		this.tbPiecepackage = tbPiecepackage;
+	}
+
+	public List<Tb_takeOutCeller> getTbTakeOutCellers() {
+		return this.tbTakeOutCellers;
+	}
+
+	public void setTbTakeOutCellers(List<Tb_takeOutCeller> tbTakeOutCellers) {
+		this.tbTakeOutCellers = tbTakeOutCellers;
+	}
+
+	public Tb_takeOutCeller addTbTakeOutCeller(Tb_takeOutCeller tbTakeOutCeller) {
+		getTbTakeOutCellers().add(tbTakeOutCeller);
+		tbTakeOutCeller.setTbItem(this);
+
+		return tbTakeOutCeller;
+	}
+
+	public Tb_takeOutCeller removeTbTakeOutCeller(Tb_takeOutCeller tbTakeOutCeller) {
+		getTbTakeOutCellers().remove(tbTakeOutCeller);
+		tbTakeOutCeller.setTbItem(null);
+
+		return tbTakeOutCeller;
 	}
 
 }

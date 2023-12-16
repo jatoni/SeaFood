@@ -1,7 +1,5 @@
 package com.mx.sea.food.views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -17,13 +15,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
-public class Login extends JFrame{
+public class Login extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private LoginController _loginController;
 	private EmployeeDto _employee;
 	private JTextField textField;
@@ -38,7 +36,7 @@ public class Login extends JFrame{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/**
@@ -47,7 +45,7 @@ public class Login extends JFrame{
 	private void initialize() {
 		_loginController = new LoginController();
 		_employee = new EmployeeDto();
-		
+
 		this.setBounds(100, 100, 274, 420);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -91,7 +89,7 @@ public class Login extends JFrame{
 		panel.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Registrarse");
-		
+
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Register().setVisible(true);
@@ -100,7 +98,7 @@ public class Login extends JFrame{
 		});
 		panel.add(btnNewButton_1);
 	}
-	
+
 	private void closeWindow() {
 		this.setVisible(false);
 	}

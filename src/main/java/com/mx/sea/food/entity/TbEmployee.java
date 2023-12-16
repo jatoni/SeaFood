@@ -40,12 +40,12 @@ public class TbEmployee implements Serializable {
 	private TbTypework tbTypework;
 
 	//bi-directional many-to-one association to TbItem
-	@OneToMany(mappedBy="tbEmployee1")
-	private List<TbItem> tbItems1;
+	@OneToMany(mappedBy="tbEmployee")
+	private List<TbItem> tbItems;
 
-	//bi-directional many-to-one association to TbItem
-	@OneToMany(mappedBy="tbEmployee2")
-	private List<TbItem> tbItems2;
+	//bi-directional many-to-one association to Tb_takeOutCeller
+	@OneToMany(mappedBy="tbEmployee")
+	private List<Tb_takeOutCeller> tbTakeOutCellers;
 
 	public TbEmployee() {
 	}
@@ -114,48 +114,48 @@ public class TbEmployee implements Serializable {
 		this.tbTypework = tbTypework;
 	}
 
-	public List<TbItem> getTbItems1() {
-		return this.tbItems1;
+	public List<TbItem> getTbItems() {
+		return this.tbItems;
 	}
 
-	public void setTbItems1(List<TbItem> tbItems1) {
-		this.tbItems1 = tbItems1;
+	public void setTbItems(List<TbItem> tbItems) {
+		this.tbItems = tbItems;
 	}
 
-	public TbItem addTbItems1(TbItem tbItems1) {
-		getTbItems1().add(tbItems1);
-		tbItems1.setTbEmployee1(this);
+	public TbItem addTbItem(TbItem tbItem) {
+		getTbItems().add(tbItem);
+		tbItem.setTbEmployee(this);
 
-		return tbItems1;
+		return tbItem;
 	}
 
-	public TbItem removeTbItems1(TbItem tbItems1) {
-		getTbItems1().remove(tbItems1);
-		tbItems1.setTbEmployee1(null);
+	public TbItem removeTbItem(TbItem tbItem) {
+		getTbItems().remove(tbItem);
+		tbItem.setTbEmployee(null);
 
-		return tbItems1;
+		return tbItem;
 	}
 
-	public List<TbItem> getTbItems2() {
-		return this.tbItems2;
+	public List<Tb_takeOutCeller> getTbTakeOutCellers() {
+		return this.tbTakeOutCellers;
 	}
 
-	public void setTbItems2(List<TbItem> tbItems2) {
-		this.tbItems2 = tbItems2;
+	public void setTbTakeOutCellers(List<Tb_takeOutCeller> tbTakeOutCellers) {
+		this.tbTakeOutCellers = tbTakeOutCellers;
 	}
 
-	public TbItem addTbItems2(TbItem tbItems2) {
-		getTbItems2().add(tbItems2);
-		tbItems2.setTbEmployee2(this);
+	public Tb_takeOutCeller addTbTakeOutCeller(Tb_takeOutCeller tbTakeOutCeller) {
+		getTbTakeOutCellers().add(tbTakeOutCeller);
+		tbTakeOutCeller.setTbEmployee(this);
 
-		return tbItems2;
+		return tbTakeOutCeller;
 	}
 
-	public TbItem removeTbItems2(TbItem tbItems2) {
-		getTbItems2().remove(tbItems2);
-		tbItems2.setTbEmployee2(null);
+	public Tb_takeOutCeller removeTbTakeOutCeller(Tb_takeOutCeller tbTakeOutCeller) {
+		getTbTakeOutCellers().remove(tbTakeOutCeller);
+		tbTakeOutCeller.setTbEmployee(null);
 
-		return tbItems2;
+		return tbTakeOutCeller;
 	}
 
 }

@@ -17,9 +17,7 @@ public class ResponseProductDto {
 	private long id;
 	private String description;
 	private Date inputDate;
-	private Date outputDate;
 	private int stock;
 	private String itemName;
-	private TbEmployee tbEmployee1;
-	private TbEmployee tbEmployee2;
+	private TbEmployee tbEmployee;
 }
