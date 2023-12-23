@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
 public class Dashboard extends JFrame {
 
@@ -34,6 +35,15 @@ public class Dashboard extends JFrame {
 	 * Create the application.
 	 */
 	public Dashboard(EmployeeDto employee) {
+		try {
+			this.set_employee(employee);
+			initialize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Dashboard() {
 		try {
 			initialize();
 		} catch (Exception e) {
@@ -66,6 +76,10 @@ public class Dashboard extends JFrame {
 		mb.add(productos);
 		this.setJMenuBar(mb);
 
+		JLabel NombreSesion = new JLabel(
+				" Bienvenido " + this._employee.getName() + " " + this._employee.getLastName());
+		mb.add(NombreSesion);
+
 		productosmodeloTable = new DefaultTableModel(titulos, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -84,7 +98,8 @@ public class Dashboard extends JFrame {
 		JButton btnNewButton = new JButton("Agregar Productos");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new RegisterProducts().setVisible(true);
+				new RegisterProducts(_employee).setVisible(true);
+				closeWindow();
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -100,5 +115,17 @@ public class Dashboard extends JFrame {
 		panel.setLayout(gl_panel);
 		this.getContentPane().setLayout(groupLayout);
 
+	}
+
+	private void closeWindow() {
+		this.setVisible(false);
+	}
+
+	public EmployeeDto get_employee() {
+		return _employee;
+	}
+
+	public void set_employee(EmployeeDto _employee) {
+		this._employee = _employee;
 	}
 }
