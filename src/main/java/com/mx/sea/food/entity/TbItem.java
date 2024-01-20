@@ -5,44 +5,43 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the tb_item database table.
  * 
  */
 @Entity
-@Table(name="tb_item")
-@NamedQuery(name="TbItem.findAll", query="SELECT t FROM TbItem t")
+@Table(name = "tb_item")
+@NamedQuery(name = "TbItem.findAll", query = "SELECT t FROM TbItem t")
 public class TbItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	private String description;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="input_date")
+	@Column(name = "input_date")
 	private Date inputDate;
 
-	@Column(name="item_name")
+	@Column(name = "item_name")
 	private String itemName;
 
 	private int stock;
 
-	//bi-directional many-to-one association to TbEmployee
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="input_user_item")
+	// bi-directional many-to-one association to TbEmployee
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "input_user_item")
 	private TbEmployee tbEmployee;
 
-	//bi-directional many-to-one association to TbPiecepackage
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_piecePackage")
+	// bi-directional many-to-one association to TbPiecepackage
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_piecePackage")
 	private TbPiecepackage tbPiecepackage;
 
-	//bi-directional many-to-one association to Tb_takeOutCeller
-	@OneToMany(mappedBy="tbItem")
+	// bi-directional many-to-one association to Tb_takeOutCeller
+	@OneToMany(mappedBy = "tbItem")
 	private List<Tb_takeOutCeller> tbTakeOutCellers;
 
 	public TbItem() {
@@ -124,6 +123,29 @@ public class TbItem implements Serializable {
 		tbTakeOutCeller.setTbItem(null);
 
 		return tbTakeOutCeller;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TbItem [id=");
+		builder.append(id);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", inputDate=");
+		builder.append(inputDate);
+		builder.append(", itemName=");
+		builder.append(itemName);
+		builder.append(", stock=");
+		builder.append(stock);
+		builder.append(", tbEmployee=");
+		builder.append(tbEmployee);
+		builder.append(", tbPiecepackage=");
+		builder.append(tbPiecepackage);
+		builder.append(", tbTakeOutCellers=");
+		builder.append(tbTakeOutCellers);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

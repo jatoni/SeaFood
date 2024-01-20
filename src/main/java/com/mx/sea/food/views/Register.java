@@ -194,8 +194,8 @@ public class Register extends JFrame {
 						employee.setLastName(Apellidos.getText());
 						employee.setEmail(Email.getText());
 						employee.setPass(Password.getText());
-						employee.setIdRole(roles.get(ComboRol.getSelectedIndex()).getId());
-						employee.setIdTypeWork(types.get(TypeWorkCombo.getSelectedIndex()).getId());
+						employee.setTbRole(roles.get(ComboRol.getSelectedIndex()));
+						employee.setTbTypework(types.get(TypeWorkCombo.getSelectedIndex()));
 						if (_registroController.Registrarse(employee)) {
 							JOptionPane.showMessageDialog(null,
 									"El Usuario: " + employee.getName() + " se guardo con exito", "No se guardo",

@@ -39,8 +39,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public boolean saveEmployee(EmployeeDto employeeDto) {
 		TbEmployee employee = map(employeeDto, TBEM_EMPLOYEE);
 		employee.setId(0);
-		employee.setTbRole(this.roleDao.findById(employeeDto.getIdRole()));
-		employee.setTbTypework(this.typeWorkDaoImpl.findById(employeeDto.getIdTypeWork()));
+		employee.setTbRole(employeeDto.getTbRole());
+		employee.setTbTypework(employeeDto.getTbTypework());
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
@@ -58,7 +58,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			em.close();
 		}
 	}
-	
 
 	@Override
 	public boolean existUsername(String username) {
@@ -84,17 +83,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		} catch (Exception e) {
 			return null;
 		}
-		
+
 	}
 
 	@Override
 	public List<TbEmployee> getAllEmployees() {
 		try {
 			EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-			TypedQuery<TbEmployee> usuarios = (TypedQuery<TbEmployee>) 
-					em.createNamedQuery("TbEmployee.findAll", TbEmployee.class);
+			TypedQuery<TbEmployee> usuarios = (TypedQuery<TbEmployee>) em.createNamedQuery("TbEmployee.findAll",
+					TbEmployee.class);
 			List<TbEmployee> listEmployees = usuarios.getResultList();
-			if(!listEmployees.isEmpty()) return listEmployees;
+			if (!listEmployees.isEmpty())
+				return listEmployees;
 			return new ArrayList<TbEmployee>();
 		} catch (Exception e) {
 			return new ArrayList<TbEmployee>();

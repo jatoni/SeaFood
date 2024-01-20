@@ -24,12 +24,12 @@ public class Tb_takeOutCeller implements Serializable {
 	private Date outputDate;
 
 	//bi-directional many-to-one association to TbEmployee
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_employee")
 	private TbEmployee tbEmployee;
 
 	//bi-directional many-to-one association to TbItem
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_item")
 	private TbItem tbItem;
 

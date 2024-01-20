@@ -11,31 +11,33 @@ import com.mx.sea.food.entity.TbEmployee;
 
 public class DashboardController {
 	private EmployeeDao employeeDaoImpl;
-	
+
 	public DashboardController() {
 		this.employeeDaoImpl = new EmployeeDaoImpl();
 	}
+
 	public List<EmployeeDto> lookupEmployees() {
 		List<TbEmployee> employeeList = employeeDaoImpl.getAllEmployees();
-		if(employeeList.isEmpty()) return new ArrayList<EmployeeDto>();
-		
+		if (employeeList.isEmpty())
+			return new ArrayList<EmployeeDto>();
+
 		List<EmployeeDto> newEmployeeList = new ArrayList<>();
-		
+
 		employeeList.forEach(employee -> {
 			EmployeeDto newEmployee = new EmployeeDto();
 			newEmployee.setEmail(employee.getEmail());
-			newEmployee.setIdRole(employee.getTbRole().getId());
-			newEmployee.setIdTypeWork(employee.getTbTypework().getId());
+			newEmployee.setTbRole(employee.getTbRole());
+			newEmployee.setTbRole(employee.getTbRole());
 			newEmployee.setLastName(employee.getLastName());
 			newEmployee.setName(employee.getName());
 			newEmployee.setPass(employee.getPass());
 			newEmployee.setUsername(employee.getUsername());
 			newEmployee.setId(employee.getId());
 			newEmployeeList.add(newEmployee);
-;		});
-		
+			;
+		});
+
 		return newEmployeeList;
 	}
-	
-	
+
 }

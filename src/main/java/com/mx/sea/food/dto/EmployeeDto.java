@@ -6,6 +6,9 @@ package com.mx.sea.food.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import com.mx.sea.food.entity.TbRole;
+import com.mx.sea.food.entity.TbTypework;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +28,8 @@ import lombok.ToString;
 @ToString
 public class EmployeeDto {
 
+	private long id;
+
 	/*
 	 * atributo para el correo electronico
 	 */
@@ -37,11 +42,14 @@ public class EmployeeDto {
 	 */
 	@NotNull(message = "El apellido no puede ser nulo")
 	private String lastName;
-	
-	private long id;
+
 	private String name;
+
 	private String username;
+
 	private String pass;
-	private long idTypeWork;
-	private long idRole;
+
+	private TbRole tbRole;
+
+	private TbTypework tbTypework;
 }

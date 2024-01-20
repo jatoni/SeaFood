@@ -6,27 +6,27 @@ import com.mx.sea.food.dto.EmployeeDto;
 import com.mx.sea.food.entity.TbEmployee;
 
 public class LoginController {
-	
+
 	private EmployeeDao _employeeDaoImpl;
-	
+
 	public LoginController() {
 		_employeeDaoImpl = new EmployeeDaoImpl();
 	}
-	
+
 	public EmployeeDto IniciarSesion(EmployeeDto employeeDto) {
 		TbEmployee existEmployee = _employeeDaoImpl.getEmployeeByEmailAndPassword(employeeDto);
-		if(existEmployee != null) {
+		if (existEmployee != null) {
 			EmployeeDto employee = new EmployeeDto();
 			employee.setEmail(existEmployee.getEmail());
-			employee.setIdRole(existEmployee.getTbRole().getId());
-			employee.setIdTypeWork(existEmployee.getTbTypework().getId());
+			employee.setTbRole(existEmployee.getTbRole());
+			employee.setTbTypework(existEmployee.getTbTypework());
 			employee.setLastName(existEmployee.getLastName());
 			employee.setName(existEmployee.getName());
 			employee.setPass(existEmployee.getPass());
 			employee.setUsername(existEmployee.getUsername());
-			
+
 			return employee;
-		}else {
+		} else {
 			return null;
 		}
 	}

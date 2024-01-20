@@ -4,19 +4,18 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the tb_employee database table.
  * 
  */
 @Entity
-@Table(name="tb_employee")
-@NamedQuery(name="TbEmployee.findAll", query="SELECT t FROM TbEmployee t")
+@Table(name = "tb_employee")
+@NamedQuery(name = "TbEmployee.findAll", query = "SELECT t FROM TbEmployee t")
 public class TbEmployee implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	private String email;
@@ -29,22 +28,22 @@ public class TbEmployee implements Serializable {
 
 	private String username;
 
-	//bi-directional many-to-one association to TbRole
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_role")
+	// bi-directional many-to-one association to TbRole
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_role")
 	private TbRole tbRole;
 
-	//bi-directional many-to-one association to TbTypework
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_typeWork")
+	// bi-directional many-to-one association to TbTypework
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_typeWork")
 	private TbTypework tbTypework;
 
-	//bi-directional many-to-one association to TbItem
-	@OneToMany(mappedBy="tbEmployee")
+	// bi-directional many-to-one association to TbItem
+	@OneToMany(mappedBy = "tbEmployee")
 	private List<TbItem> tbItems;
 
-	//bi-directional many-to-one association to Tb_takeOutCeller
-	@OneToMany(mappedBy="tbEmployee")
+	// bi-directional many-to-one association to Tb_takeOutCeller
+	@OneToMany(mappedBy = "tbEmployee")
 	private List<Tb_takeOutCeller> tbTakeOutCellers;
 
 	public TbEmployee() {
