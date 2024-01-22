@@ -3,9 +3,7 @@
  */
 package com.mx.sea.food.daoimpl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,8 +13,7 @@ import javax.persistence.TypedQuery;
 
 import com.mx.sea.food.dao.ProductsDao;
 import com.mx.sea.food.dto.ProductDto;
-import com.mx.sea.food.entity.TbEmployee;
-import com.mx.sea.food.entity.TbItem;
+import com.mx.sea.food.entity.TbProduct;
 import com.mx.sea.food.tools.ToolsSeaFood;
 
 /**
@@ -25,22 +22,20 @@ import com.mx.sea.food.tools.ToolsSeaFood;
 public class ProductsDaoImpl implements ProductsDao {
 
 	private EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("SeaFood");
-	private TbItem item = new TbItem();
+	private TbProduct item = new TbProduct();
 
 	public ProductsDaoImpl() {
 
 	}
 
 	@Override
-	public List<TbItem> getAllProducts() {
+	public List<TbProduct> getAllProducts() {
 		try {
 			EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-			TypedQuery<TbItem> products = (TypedQuery<TbItem>) em.createNamedQuery("TbItem.findAll", TbItem.class);
-//			ResponseProductDto productsMap = products.getResultList().stream()
-//					.map(product -> new ResponseProductDto()).collect(Collectors.toList());
-			return null;
+			TypedQuery<TbProduct> products = em.createNamedQuery("TbProduct.findAll", TbProduct.class);
+			return products.getResultList();
 		} catch (Exception e) {
-			return new ArrayList<TbItem>();
+			return null;
 		}
 	}
 
@@ -50,9 +45,7 @@ public class ProductsDaoImpl implements ProductsDao {
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		try {
-
-			TbItem itemToSave = ToolsSeaFood.map(prodctDto, item);
-
+			TbProduct itemToSave = ToolsSeaFood.map(prodctDto, item);
 			em.persist(itemToSave);
 			et.commit();
 			return true;

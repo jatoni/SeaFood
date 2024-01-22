@@ -3,8 +3,10 @@ package com.mx.sea.food.views;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 
+import com.mx.sea.food.controllers.RegisterProductController;
 import com.mx.sea.food.dto.EmployeeDto;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTable;
@@ -30,6 +32,7 @@ public class Dashboard extends JFrame {
 	String[] titulos = { "id", "Producto", "Fecha de Ingreso", "Tipos de producto", "Stock" };
 	private JTable productostable;
 	private DefaultTableModel productosmodeloTable;
+	private RegisterProductController registerProductController;
 
 	/**
 	 * Create the application.
@@ -55,7 +58,7 @@ public class Dashboard extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
+		registerProductController = new RegisterProductController();
 		productostable = new JTable();
 		this.setBounds(100, 100, 770, 510);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,11 +98,30 @@ public class Dashboard extends JFrame {
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
 				Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE));
 
-		JButton btnNewButton = new JButton("Agregar Productos");
+		JButton btnNewButton = new JButton("Movimientos Producto");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new RegisterProducts(_employee).setVisible(true);
-				closeWindow();
+				int opcionSeleccionada = JOptionPane.showConfirmDialog(null,
+						"Quieres agregar un nuevo producto o un producto existente", "Mensaje de opcion",
+						JOptionPane.YES_NO_CANCEL_OPTION);
+				switch (opcionSeleccionada) {
+				case JOptionPane.YES_OPTION:
+					if (registerProductController.listProducts().isEmpty()
+							|| registerProductController.listProducts() == null) {
+						JOptionPane.showMessageDialog(null, "No hay productos existente", "No existe ni un producto",
+								JOptionPane.ERROR_MESSAGE);
+						new RegisterProducts(_employee).setVisible(true);
+						closeWindow();
+					} else {
+						new RegisterNewProduct(_employee).setVisible(true);
+						closeWindow();
+					}
+					break;
+				case JOptionPane.NO_OPTION:
+					new RegisterProducts(_employee).setVisible(true);
+					closeWindow();
+					break;
+				}
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);

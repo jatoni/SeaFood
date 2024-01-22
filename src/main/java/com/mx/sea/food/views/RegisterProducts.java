@@ -42,9 +42,12 @@ public class RegisterProducts extends JFrame {
 	private JTextField cantidad;
 	private RegisterProductController itemController;
 	private TbEmployee employee = new TbEmployee();
+	private int opcion;
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @wbp.parser.constructor
 	 */
 	public RegisterProducts(EmployeeDto employeeDto) {
 		try {
@@ -113,9 +116,7 @@ public class RegisterProducts extends JFrame {
 				} else {
 					if (isNumeric(cantidad.getText())) {
 						TbEmployee employeeToSave = ToolsSeaFood.map(employeeDto, employee);
-						System.out.println(employeeToSave);
-						TbPiecepackage paqueteselected = paquetes.get(paquete.getSelectedIndex());
-						System.out.println(paqueteselected);
+
 						ProductDto productToSave = new ProductDto(descripcion.getText(), fechaSeleccionado,
 								Integer.parseInt(cantidad.getText()), nombreProducto.getText(), employeeToSave,
 								paquetes.get(paquete.getSelectedIndex()));
@@ -231,4 +232,19 @@ public class RegisterProducts extends JFrame {
 			return true;
 		}
 	}
+
+	/**
+	 * @return the opcion
+	 */
+	public int getOpcion() {
+		return opcion;
+	}
+
+	/**
+	 * @param opcion the opcion to set
+	 */
+	public void setOpcion(int opcion) {
+		this.opcion = opcion;
+	}
+
 }

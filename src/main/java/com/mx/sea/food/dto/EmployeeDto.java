@@ -7,7 +7,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import com.mx.sea.food.entity.TbRole;
-import com.mx.sea.food.entity.TbTypework;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,9 +46,7 @@ public class EmployeeDto {
 
 	private String username;
 
-	private String pass;
+	private String password;
 
 	private TbRole tbRole;
-
-	private TbTypework tbTypework;
 }

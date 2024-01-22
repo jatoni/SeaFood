@@ -40,8 +40,6 @@ public class EmployeeTableModel extends AbstractTableModel {
 			return employee.getEmail();
 		case 4:
 			return employee.getTbRole();
-		case 5:
-			return employee.getTbTypework();
 		case 6:
 			return employee.getId(); // Agregamos la columna del ID del empleado
 		default:

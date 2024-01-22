@@ -22,7 +22,7 @@ public class TbRole implements Serializable {
 	private String name;
 
 	//bi-directional many-to-one association to TbEmployee
-	@OneToMany(mappedBy="tbRole")
+	@OneToMany(mappedBy="tbRole", fetch=FetchType.EAGER)
 	private List<TbEmployee> tbEmployees;
 
 	public TbRole() {

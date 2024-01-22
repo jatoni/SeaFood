@@ -7,19 +7,19 @@
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>com.mx.sea.food.entity.TbEmployee</class>
-		<class>com.mx.sea.food.entity.TbItem</class>
+		<class>com.mx.sea.food.entity.TbMovement</class>
 		<class>com.mx.sea.food.entity.TbPiecepackage</class>
+		<class>com.mx.sea.food.entity.TbProduct</class>
 		<class>com.mx.sea.food.entity.TbRole</class>
-		<class>com.mx.sea.food.entity.Tb_takeOutCeller</class>
-		<class>com.mx.sea.food.entity.TbTypework</class>
+		<class>com.mx.sea.food.entity.TbTypemovement</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://192.99.154.142:3306/seafood?serverTimezone=America/Mexico_City" />
-			<property name="javax.persistence.jdbc.user" value="program" />
+				value="jdbc:mysql://127.0.0.1:3306/seafood?serverTimezone=America/Mexico_City" />
+			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password"
-				value="Program*2022" />
+				value="admin" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.MySQL8Dialect" />

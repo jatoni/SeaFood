@@ -4,12 +4,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JTextField;
 
 import com.mx.sea.food.controllers.RegisterController;
 import com.mx.sea.food.dto.EmployeeDto;
 import com.mx.sea.food.entity.TbRole;
-import com.mx.sea.food.entity.TbTypework;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -39,6 +40,8 @@ public class Register extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final Component 
+												TypeWorkCombo = null;
 	private EmployeeDto employee;
 	private RegisterController _registroController;
 	private JTextField Nombres;
@@ -168,13 +171,7 @@ public class Register extends JFrame {
 
 		JLabel lblNewLabel_3_1_1_1_1_1_1 = new JLabel("Type Work:");
 
-		List<TbTypework> types = _registroController.getTypeWorkList();
 		List<String> typesName = new ArrayList<String>();
-		types.forEach(type -> typesName.add(type.getName()));
-		JComboBox TypeWorkCombo = new JComboBox(typesName.toArray());
-		TypeWorkCombo.setToolTipText("Escoge tu rol de trabajo");
-
-		TypeWorkCombo.setBorder(null);
 
 		JButton btnNewButton = new JButton("Registrar");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -193,9 +190,8 @@ public class Register extends JFrame {
 						employee.setUsername(Username.getText());
 						employee.setLastName(Apellidos.getText());
 						employee.setEmail(Email.getText());
-						employee.setPass(Password.getText());
+						employee.setPassword(Password.getText());
 						employee.setTbRole(roles.get(ComboRol.getSelectedIndex()));
-						employee.setTbTypework(types.get(TypeWorkCombo.getSelectedIndex()));
 						if (_registroController.Registrarse(employee)) {
 							JOptionPane.showMessageDialog(null,
 									"El Usuario: " + employee.getName() + " se guardo con exito", "No se guardo",
@@ -262,7 +258,8 @@ public class Register extends JFrame {
 								.addGap(95))
 						.addGroup(Alignment.LEADING,
 								gl_panel.createSequentialGroup().addGap(81).addComponent(lblNewLabel_3_1_1_1_1_1_1)
-										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(TypeWorkCombo,
+										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(
+												TypeWorkCombo,
 												GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				.addGroup(Alignment.TRAILING,
@@ -300,10 +297,7 @@ public class Register extends JFrame {
 				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addComponent(lblNewLabel_3_1_1_1_1_1)
 						.addComponent(ComboRol, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(TypeWorkCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_3_1_1_1_1_1_1))
+				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addComponent(lblNewLabel_3_1_1_1_1_1_1))
 				.addGap(27).addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(btnNewButton)
 						.addComponent(btnNewButton_1))
 				.addContainerGap(51, Short.MAX_VALUE)));

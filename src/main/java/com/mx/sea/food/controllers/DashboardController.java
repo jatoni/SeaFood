@@ -30,7 +30,7 @@ public class DashboardController {
 			newEmployee.setTbRole(employee.getTbRole());
 			newEmployee.setLastName(employee.getLastName());
 			newEmployee.setName(employee.getName());
-			newEmployee.setPass(employee.getPass());
+			newEmployee.setPassword(employee.getPassword());
 			newEmployee.setUsername(employee.getUsername());
 			newEmployee.setId(employee.getId());
 			newEmployeeList.add(newEmployee);

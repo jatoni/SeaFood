@@ -11,7 +11,6 @@ import javax.persistence.TypedQuery;
 
 import com.mx.sea.food.dao.EmployeeDao;
 import com.mx.sea.food.dao.RoleDao;
-import com.mx.sea.food.dao.TypeWorkDao;
 import com.mx.sea.food.dto.EmployeeDto;
 import com.mx.sea.food.entity.TbEmployee;
 
@@ -28,19 +27,16 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	private TbEmployee TBEM_EMPLOYEE = new TbEmployee();
 	private EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("SeaFood");
 	private RoleDao roleDao;
-	private TypeWorkDao typeWorkDaoImpl;
 
 	public EmployeeDaoImpl() {
 		this.roleDao = new RoleDaoImpl();
-		this.typeWorkDaoImpl = new TypeWorkDaoImpl();
 	}
 
 	@Override
 	public boolean saveEmployee(EmployeeDto employeeDto) {
 		TbEmployee employee = map(employeeDto, TBEM_EMPLOYEE);
-		employee.setId(0);
+		employee.setId(0L);
 		employee.setTbRole(employeeDto.getTbRole());
-		employee.setTbTypework(employeeDto.getTbTypework());
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
@@ -76,9 +72,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		try {
 			EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
 			TypedQuery<TbEmployee> usuario = (TypedQuery<TbEmployee>) em
-					.createQuery("FROM TbEmployee t WHERE t.email = :email AND t.pass = :pass");
+					.createQuery("FROM TbEmployee t WHERE t.email = :email AND t.password = :pass");
 			usuario.setParameter("email", employee.getEmail());
-			usuario.setParameter("pass", employee.getPass());
+			usuario.setParameter("pass", employee.getPassword());
 			return usuario.getResultStream().findFirst().orElse(null);
 		} catch (Exception e) {
 			return null;
