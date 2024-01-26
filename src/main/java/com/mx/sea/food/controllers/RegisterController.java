@@ -26,10 +26,8 @@ public class RegisterController {
 	}
 
 	public boolean Registrarse(EmployeeDto employeeDto) {
-		if (this.employeeDaoImpl.saveEmployee(employeeDto)) {
-			return true;
-		}
-		return false;
+		return this.employeeDaoImpl.saveEmployee(employeeDto);
+		
 	}
 
 	public boolean isUserName(String username) {

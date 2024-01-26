@@ -15,7 +15,7 @@ public class DashboardController {
 	public DashboardController() {
 		this.employeeDaoImpl = new EmployeeDaoImpl();
 	}
-	public List<EmployeeDto> lookupEmployees() {
+	public List<EmployeeDto> searchEmployees() {
 		List<TbEmployee> employeeList = employeeDaoImpl.getAllEmployees();
 		if(employeeList.isEmpty()) return new ArrayList<EmployeeDto>();
 		
@@ -32,8 +32,12 @@ public class DashboardController {
 			newEmployee.setUsername(employee.getUsername());
 			newEmployee.setId(employee.getId());
 			newEmployeeList.add(newEmployee);
-;		});
+		});
 		
 		return newEmployeeList;
+	}
+	
+	public boolean deleteEmployeeById(long id) {
+		return employeeDaoImpl.deleteEmployeeById(id);
 	}
 }

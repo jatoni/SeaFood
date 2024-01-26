@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import com.mx.sea.food.controllers.RegisterController;
 import com.mx.sea.food.dto.EmployeeDto;
+import com.mx.sea.food.dto.RoleDto;
 import com.mx.sea.food.entity.TbRole;
 import com.mx.sea.food.entity.TbTypework;
 
@@ -68,6 +69,13 @@ public class Register extends JFrame{
 	private JPasswordField Password;
 	private JPasswordField ConfirmarPassword;
 	private JComboBox ComboRol;
+	private JComboBox TypeWorkCombo;
+	private boolean editMode;
+	private JButton btnNewButton;
+	private List<TbRole> roles;
+	private List<String> rolesName;
+	private List<TbTypework> types;
+	private List<String> typesName;
 
 	/**
 	 * Create the application.
@@ -177,8 +185,8 @@ public class Register extends JFrame{
 		ConfirmarPassword.setBackground(SystemColor.window);
 
 		JComboBox IdRol = null;
-		List<TbRole> roles = _registroController.getRoleList();
-		List<String> rolesName = new ArrayList<String>();
+		roles = _registroController.getRoleList();
+		rolesName = new ArrayList<String>();
 		roles.forEach(rol -> rolesName.add(rol.getName()));
 		ComboRol = new JComboBox(rolesName.toArray());
 		ComboRol.setToolTipText("Escoge un rol\r\n");
@@ -188,20 +196,18 @@ public class Register extends JFrame{
 
 		JLabel lblNewLabel_3_1_1_1_1_1_1 = new JLabel("Type Work:");
 
-		List<TbTypework> types = _registroController.getTypeWorkList();
-		List<String> typesName = new ArrayList<String>();
+		types = _registroController.getTypeWorkList();
+		typesName = new ArrayList<String>();
 		types.forEach(type -> typesName.add(type.getName()));
-		JComboBox TypeWorkCombo = new JComboBox(typesName.toArray());
+		TypeWorkCombo = new JComboBox(typesName.toArray());
 		TypeWorkCombo.setToolTipText("Escoge tu rol de trabajo");
 
 		TypeWorkCombo.setBorder(null);
 
-		JButton btnNewButton = new JButton("Registrar");
+		btnNewButton = new JButton("Registrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Nombres.getText().isEmpty() || Apellidos.getText().isEmpty() || Username.getText().isEmpty()
-						|| Email.getText().isEmpty() || Password.getText().isEmpty()
-						|| ConfirmarPassword.getText().isEmpty()) {
+				if (validateForm()) {
 					JOptionPane.showMessageDialog(null, "No puedes dejar ni un espacio en blanco", "Mensajes vacios",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
@@ -216,11 +222,15 @@ public class Register extends JFrame{
 						employee.setPass(Password.getText());
 						employee.setIdRole(roles.get(ComboRol.getSelectedIndex()).getId());
 						employee.setIdTypeWork(types.get(TypeWorkCombo.getSelectedIndex()).getId());
+						
+						
 						if (_registroController.Registrarse(employee)) {
 							JOptionPane.showMessageDialog(null,
 									"El Usuario: " + employee.getName() + " se guardo con exito", "No se guardo",
 									JOptionPane.INFORMATION_MESSAGE);
 							vaciarCeldas();
+							dispose();
+							if(!editMode) new Login().setVisible(true);
 						} else {
 							JOptionPane.showMessageDialog(null,
 									"Hubo un problema al guardar el Usuario: " + employee.getName(), "No se guardo",
@@ -235,7 +245,13 @@ public class Register extends JFrame{
 		JButton btnNewButton_1 = new JButton("Cancelar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				if(editMode) {
+					
+					dispose();
+				}else {
+					new Login().setVisible(true);
+					dispose();
+				}
 			}
 		});
 		btnNewButton_1.setBorder(UIManager.getBorder("Button.border"));
@@ -378,5 +394,45 @@ public class Register extends JFrame{
 		Password.setText("");
 		ConfirmarPassword.setText("");
 
+	}
+	
+	public boolean validateForm() {
+		return (Nombres.getText().isEmpty() || Apellidos.getText().isEmpty() || Username.getText().isEmpty()
+				|| Email.getText().isEmpty() || Password.getText().isEmpty()
+				|| ConfirmarPassword.getText().isEmpty());
+	}
+
+	public void setEditMode(EmployeeDto editEmployee) {
+		this.editMode = true;
+		Nombres.setText(editEmployee.getName());
+		Apellidos.setText(editEmployee.getLastName());
+		Email.setText(editEmployee.getEmail());
+		Username.setText(editEmployee.getUsername());
+		Password.setText(editEmployee.getPass());
+		ConfirmarPassword.setText(editEmployee.getPass());
+		
+		for(TbRole rol : roles) {
+			if(rol.getId() == editEmployee.getIdRole()) {
+				ComboRol.setSelectedItem(rol.getName());
+				break;
+			}
+		}
+		
+		for(TbTypework type : types) {
+			if(type.getId() == editEmployee.getIdTypeWork()) {
+				TypeWorkCombo.setSelectedItem(type.getName());
+				break;
+			}
+		}
+		
+		
+		
+		employee.setId(editEmployee.getId());
+		
+		employee.setIdRole(editEmployee.getIdRole());
+		employee.setIdTypeWork(editEmployee.getIdTypeWork());
+		
+		btnNewButton.setText("Editar Usuario: "+ editEmployee.getUsername());
+		
 	}
 }

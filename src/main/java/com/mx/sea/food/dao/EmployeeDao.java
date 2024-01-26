@@ -16,7 +16,11 @@ public interface EmployeeDao {
 
 	boolean existUsername(String username);
 	
+	TbEmployee getEmployeeById(long id);
+	
 	TbEmployee getEmployeeByEmailAndPassword(EmployeeDto employee);
 	
 	public List<TbEmployee> getAllEmployees();
+	
+	public boolean deleteEmployeeById(long id);
 }

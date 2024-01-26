@@ -102,7 +102,7 @@ public class Login extends JFrame{
 	}
 	
 	private void closeWindow() {
-		this.setVisible(false);
+		dispose();
 	}
 
 }

@@ -26,26 +26,34 @@ import java.util.List;
 public class EmployeeDaoImpl implements EmployeeDao {
 
 	private TbEmployee TBEM_EMPLOYEE = new TbEmployee();
-	private EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("SeaFood");
+	private EntityManagerFactory ENTITY_MANAGER_FACTORY;
 	private RoleDao roleDao;
 	private TypeWorkDao typeWorkDaoImpl;
 
 	public EmployeeDaoImpl() {
 		this.roleDao = new RoleDaoImpl();
 		this.typeWorkDaoImpl = new TypeWorkDaoImpl();
+		this.ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("SeaFood");
 	}
 
 	@Override
 	public boolean saveEmployee(EmployeeDto employeeDto) {
+		TbEmployee existEmployee = getEmployeeById(employeeDto.getId());
+
 		TbEmployee employee = map(employeeDto, TBEM_EMPLOYEE);
-		employee.setId(0);
+		if (existEmployee == null)
+			employee.setId(0);
 		employee.setTbRole(this.roleDao.findById(employeeDto.getIdRole()));
 		employee.setTbTypework(this.typeWorkDaoImpl.findById(employeeDto.getIdTypeWork()));
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		try {
-			em.persist(employee);
+			if (existEmployee == null) {
+				em.persist(employee);
+			} else {
+				em.merge(employee);
+			}
 			et.commit();
 			return true;
 		} catch (Exception e) {
@@ -57,8 +65,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		} finally {
 			em.close();
 		}
+
 	}
-	
 
 	@Override
 	public boolean existUsername(String username) {
@@ -84,20 +92,50 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		} catch (Exception e) {
 			return null;
 		}
-		
+
 	}
 
 	@Override
 	public List<TbEmployee> getAllEmployees() {
 		try {
 			EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-			TypedQuery<TbEmployee> usuarios = (TypedQuery<TbEmployee>) 
-					em.createNamedQuery("TbEmployee.findAll", TbEmployee.class);
+			TypedQuery<TbEmployee> usuarios = (TypedQuery<TbEmployee>) em.createNamedQuery("TbEmployee.findAll",
+					TbEmployee.class);
 			List<TbEmployee> listEmployees = usuarios.getResultList();
-			if(!listEmployees.isEmpty()) return listEmployees;
+			if (!listEmployees.isEmpty())
+				return listEmployees;
 			return new ArrayList<TbEmployee>();
 		} catch (Exception e) {
 			return new ArrayList<TbEmployee>();
+		}
+	}
+
+	@Override
+	public TbEmployee getEmployeeById(long id) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		return em.find(TbEmployee.class, id);
+
+	}
+
+	@Override
+	public boolean deleteEmployeeById(long id) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		try {
+			TbEmployee existEmployee = em.find(TbEmployee.class, id);
+			et.begin();
+			if(existEmployee == null) return false;
+			em.remove(existEmployee);
+			et.commit();
+			return true;
+		} catch (Exception e) {
+			if (et.isActive()) {
+                et.rollback();
+            }
+			e.printStackTrace();
+			return false;
+		}finally {
+			em.close();
 		}
 	}
 
