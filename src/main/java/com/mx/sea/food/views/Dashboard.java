@@ -104,7 +104,7 @@ public class Dashboard extends JFrame{
 		menu.add(productos);
 		
 		
-		String[] columnas = {"Id","Nombre","Apellidos","Username","Email","Role","Tipo Trabajador"};
+		String[] columnas = {"Id","Nombre","Apellidos","Username","Email","Role"};
 		
 		usuariosTableModel = new DefaultTableModel(columnas,0) {
 			@Override

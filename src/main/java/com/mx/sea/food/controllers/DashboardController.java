@@ -25,10 +25,9 @@ public class DashboardController {
 			EmployeeDto newEmployee = new EmployeeDto();
 			newEmployee.setEmail(employee.getEmail());
 			newEmployee.setIdRole(employee.getTbRole().getId());
-			newEmployee.setIdTypeWork(employee.getTbTypework().getId());
 			newEmployee.setLastName(employee.getLastName());
 			newEmployee.setName(employee.getName());
-			newEmployee.setPass(employee.getPass());
+			newEmployee.setPassword(employee.getPassword());
 			newEmployee.setUsername(employee.getUsername());
 			newEmployee.setId(employee.getId());
 			newEmployeeList.add(newEmployee);

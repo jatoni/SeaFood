@@ -41,7 +41,7 @@ public class EmployeeDto {
 	private long id;
 	private String name;
 	private String username;
-	private String pass;
+	private String password;
 	private long idTypeWork;
 	private long idRole;
 }

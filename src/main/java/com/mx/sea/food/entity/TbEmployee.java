@@ -4,18 +4,19 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+
 /**
  * The persistent class for the tb_employee database table.
  * 
  */
 @Entity
-@Table(name = "tb_employee")
-@NamedQuery(name = "TbEmployee.findAll", query = "SELECT t FROM TbEmployee t")
+@Table(name="tb_employee")
+@NamedQuery(name="TbEmployee.findAll", query="SELECT t FROM TbEmployee t")
 public class TbEmployee implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 
 	private String email;
@@ -24,27 +25,18 @@ public class TbEmployee implements Serializable {
 
 	private String name;
 
-	private String pass;
+	private String password;
 
 	private String username;
 
-	// bi-directional many-to-one association to TbRole
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_role")
+	//bi-directional many-to-one association to TbRole
+	@ManyToOne
+	@JoinColumn(name="id_role")
 	private TbRole tbRole;
 
-	// bi-directional many-to-one association to TbTypework
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_typeWork")
-	private TbTypework tbTypework;
-
-	// bi-directional many-to-one association to TbIncome
-	@OneToMany(mappedBy = "tbEmployee")
-	private List<TbIncome> tbIncomes;
-
-	// bi-directional many-to-one association to TbWarehouseoutlet
-	@OneToMany(mappedBy = "tbEmployee")
-	private List<TbWarehouseoutlet> tbWarehouseoutlets;
+	//bi-directional many-to-one association to TbMovement
+	@OneToMany(mappedBy="tbEmployee")
+	private List<TbMovement> tbMovements;
 
 	public TbEmployee() {
 	}
@@ -81,12 +73,12 @@ public class TbEmployee implements Serializable {
 		this.name = name;
 	}
 
-	public String getPass() {
-		return this.pass;
+	public String getPassword() {
+		return this.password;
 	}
 
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getUsername() {
@@ -105,83 +97,26 @@ public class TbEmployee implements Serializable {
 		this.tbRole = tbRole;
 	}
 
-	public TbTypework getTbTypework() {
-		return this.tbTypework;
+	public List<TbMovement> getTbMovements() {
+		return this.tbMovements;
 	}
 
-	public void setTbTypework(TbTypework tbTypework) {
-		this.tbTypework = tbTypework;
+	public void setTbMovements(List<TbMovement> tbMovements) {
+		this.tbMovements = tbMovements;
 	}
 
-	public List<TbIncome> getTbIncomes() {
-		return this.tbIncomes;
+	public TbMovement addTbMovement(TbMovement tbMovement) {
+		getTbMovements().add(tbMovement);
+		tbMovement.setTbEmployee(this);
+
+		return tbMovement;
 	}
 
-	public void setTbIncomes(List<TbIncome> tbIncomes) {
-		this.tbIncomes = tbIncomes;
-	}
+	public TbMovement removeTbMovement(TbMovement tbMovement) {
+		getTbMovements().remove(tbMovement);
+		tbMovement.setTbEmployee(null);
 
-	public TbIncome addTbIncome(TbIncome tbIncome) {
-		getTbIncomes().add(tbIncome);
-		tbIncome.setTbEmployee(this);
-
-		return tbIncome;
-	}
-
-	public TbIncome removeTbIncome(TbIncome tbIncome) {
-		getTbIncomes().remove(tbIncome);
-		tbIncome.setTbEmployee(null);
-
-		return tbIncome;
-	}
-
-	public List<TbWarehouseoutlet> getTbWarehouseoutlets() {
-		return this.tbWarehouseoutlets;
-	}
-
-	public void setTbWarehouseoutlets(List<TbWarehouseoutlet> tbWarehouseoutlets) {
-		this.tbWarehouseoutlets = tbWarehouseoutlets;
-	}
-
-	public TbWarehouseoutlet addTbWarehouseoutlet(TbWarehouseoutlet tbWarehouseoutlet) {
-		getTbWarehouseoutlets().add(tbWarehouseoutlet);
-		tbWarehouseoutlet.setTbEmployee(this);
-
-		return tbWarehouseoutlet;
-	}
-
-	public TbWarehouseoutlet removeTbWarehouseoutlet(TbWarehouseoutlet tbWarehouseoutlet) {
-		getTbWarehouseoutlets().remove(tbWarehouseoutlet);
-		tbWarehouseoutlet.setTbEmployee(null);
-
-		return tbWarehouseoutlet;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("TbEmployee [id=");
-		builder.append(id);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", lastName=");
-		builder.append(lastName);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", pass=");
-		builder.append(pass);
-		builder.append(", username=");
-		builder.append(username);
-		builder.append(", tbRole=");
-		builder.append(tbRole);
-		builder.append(", tbTypework=");
-		builder.append(tbTypework);
-		builder.append(", tbIncomes=");
-		builder.append(tbIncomes);
-		builder.append(", tbWarehouseoutlets=");
-		builder.append(tbWarehouseoutlets);
-		builder.append("]");
-		return builder.toString();
+		return tbMovement;
 	}
 
 }

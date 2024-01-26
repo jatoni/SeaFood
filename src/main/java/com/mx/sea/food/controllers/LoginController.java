@@ -19,10 +19,9 @@ public class LoginController {
 			EmployeeDto employee = new EmployeeDto();
 			employee.setEmail(existEmployee.getEmail());
 			employee.setIdRole(existEmployee.getTbRole().getId());
-			employee.setIdTypeWork(existEmployee.getTbTypework().getId());
 			employee.setLastName(existEmployee.getLastName());
 			employee.setName(existEmployee.getName());
-			employee.setPass(existEmployee.getPass());
+			employee.setPassword(existEmployee.getPassword());
 			employee.setUsername(existEmployee.getUsername());
 			
 			return employee;

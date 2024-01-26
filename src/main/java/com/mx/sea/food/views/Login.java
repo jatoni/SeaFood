@@ -76,7 +76,7 @@ public class Login extends JFrame{
 				} else {
 
 					_employee.setEmail(textField.getText());
-					_employee.setPass(passwordField.getText());
+					_employee.setPassword(passwordField.getText());
 					_employee = _loginController.IniciarSesion(_employee);
 					if (_employee != null) {
 						new Dashboard(_employee).setVisible(true);

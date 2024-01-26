@@ -14,7 +14,6 @@ import com.mx.sea.food.controllers.RegisterController;
 import com.mx.sea.food.dto.EmployeeDto;
 import com.mx.sea.food.dto.RoleDto;
 import com.mx.sea.food.entity.TbRole;
-import com.mx.sea.food.entity.TbTypework;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -69,12 +68,10 @@ public class Register extends JFrame{
 	private JPasswordField Password;
 	private JPasswordField ConfirmarPassword;
 	private JComboBox ComboRol;
-	private JComboBox TypeWorkCombo;
 	private boolean editMode;
 	private JButton btnNewButton;
 	private List<TbRole> roles;
 	private List<String> rolesName;
-	private List<TbTypework> types;
 	private List<String> typesName;
 
 	/**
@@ -196,15 +193,10 @@ public class Register extends JFrame{
 
 		JLabel lblNewLabel_3_1_1_1_1_1_1 = new JLabel("Type Work:");
 
-		types = _registroController.getTypeWorkList();
-		typesName = new ArrayList<String>();
-		types.forEach(type -> typesName.add(type.getName()));
-		TypeWorkCombo = new JComboBox(typesName.toArray());
-		TypeWorkCombo.setToolTipText("Escoge tu rol de trabajo");
-
-		TypeWorkCombo.setBorder(null);
+		
 
 		btnNewButton = new JButton("Registrar");
+		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (validateForm()) {
@@ -219,9 +211,8 @@ public class Register extends JFrame{
 						employee.setUsername(Username.getText());
 						employee.setLastName(Apellidos.getText());
 						employee.setEmail(Email.getText());
-						employee.setPass(Password.getText());
+						employee.setPassword(Password.getText());
 						employee.setIdRole(roles.get(ComboRol.getSelectedIndex()).getId());
-						employee.setIdTypeWork(types.get(TypeWorkCombo.getSelectedIndex()).getId());
 						
 						
 						if (_registroController.Registrarse(employee)) {
@@ -298,8 +289,7 @@ public class Register extends JFrame{
 								.addGap(95))
 						.addGroup(Alignment.LEADING,
 								gl_panel.createSequentialGroup().addGap(81).addComponent(lblNewLabel_3_1_1_1_1_1_1)
-										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(TypeWorkCombo,
-												GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
+										.addPreferredGap(ComponentPlacement.UNRELATED)))
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				.addGroup(Alignment.TRAILING,
 						gl_panel.createSequentialGroup().addContainerGap(125, Short.MAX_VALUE)
@@ -337,8 +327,6 @@ public class Register extends JFrame{
 						.addComponent(ComboRol, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 				.addPreferredGap(ComponentPlacement.UNRELATED)
 				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(TypeWorkCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_3_1_1_1_1_1_1))
 				.addGap(27).addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(btnNewButton)
 						.addComponent(btnNewButton_1))
@@ -408,8 +396,8 @@ public class Register extends JFrame{
 		Apellidos.setText(editEmployee.getLastName());
 		Email.setText(editEmployee.getEmail());
 		Username.setText(editEmployee.getUsername());
-		Password.setText(editEmployee.getPass());
-		ConfirmarPassword.setText(editEmployee.getPass());
+		Password.setText(editEmployee.getPassword());
+		ConfirmarPassword.setText(editEmployee.getPassword());
 		
 		for(TbRole rol : roles) {
 			if(rol.getId() == editEmployee.getIdRole()) {
@@ -418,12 +406,7 @@ public class Register extends JFrame{
 			}
 		}
 		
-		for(TbTypework type : types) {
-			if(type.getId() == editEmployee.getIdTypeWork()) {
-				TypeWorkCombo.setSelectedItem(type.getName());
-				break;
-			}
-		}
+		
 		
 		
 		
