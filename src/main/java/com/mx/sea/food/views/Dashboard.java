@@ -44,6 +44,8 @@ public class Dashboard extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	String[] columnas = {"Id","Nombre","Apellidos","Username","Email","Role"};
+	
 	private EmployeeDto _employee;
 	private DefaultTableModel usuariosTableModel;
 	private DashboardController _dashboardController;
@@ -57,6 +59,13 @@ public class Dashboard extends JFrame{
 	private JButton userDeleteButton;
 	private JButton userCancelButton;
 	private long userId;
+	JMenuBar mb;
+	JMenu menu;
+	JMenuItem usuarios;
+	JMenuItem productos;
+	GroupLayout groupLayout;
+	GroupLayout gl_userPanel;
+	
 	
 
 	/**
@@ -77,17 +86,24 @@ public class Dashboard extends JFrame{
 	 */
 	private void initialize() {
 		_dashboardController = new DashboardController();
+		
 		this.setBounds(100, 100, 770, 510);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		configureMenu();
+		configureUsuarioPanel();
+		
+	}
 
-		JMenuItem i1, i2, i3, i4, i5;
-		JMenuBar mb = new JMenuBar();
+	
+	private void configureMenu() {
+		mb = new JMenuBar();
 		this.setJMenuBar(mb);
 		
-		JMenu menu = new JMenu("Menu");
+		menu = new JMenu("Menu");
 		mb.add(menu);
 		
-		JMenuItem usuarios = new JMenuItem("Usuarios");
+		usuarios = new JMenuItem("Usuarios");
 		usuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showUsuariosSection();
@@ -95,27 +111,19 @@ public class Dashboard extends JFrame{
 		});
 		menu.add(usuarios);
 		
-		JMenuItem productos = new JMenuItem("Productos");
+		productos = new JMenuItem("Productos");
 		productos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				hiddeUsuariosSection();
 			}
 		});
 		menu.add(productos);
-		
-		
-		String[] columnas = {"Id","Nombre","Apellidos","Username","Email","Role"};
-		
-		usuariosTableModel = new DefaultTableModel(columnas,0) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		
+	}
+	
+	private void configureUsuarioPanel() {
 		userPanel = new JPanel();
 		userPanel.setVisible(false);
-		GroupLayout groupLayout = new GroupLayout(this.getContentPane());
+		groupLayout = new GroupLayout(this.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(userPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
@@ -132,7 +140,7 @@ public class Dashboard extends JFrame{
 		
 		
 		
-		GroupLayout gl_userPanel = new GroupLayout(userPanel);
+		gl_userPanel = new GroupLayout(userPanel);
 		gl_userPanel.setHorizontalGroup(
 			gl_userPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_userPanel.createSequentialGroup()
@@ -166,9 +174,6 @@ public class Dashboard extends JFrame{
 		
 		this.getContentPane().setLayout(groupLayout);
 	}
-
-	
-	
 	private void showUsuariosSection() {
 		
 		userPanel.setVisible(true);
@@ -204,11 +209,12 @@ public class Dashboard extends JFrame{
 		
 	}
 	private void configureUsuariosComponents() {
+		
 		userEditMode = false;
 		usuariosLabel = new JLabel("Usuarios");
 		usuariosLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		String[] columnas = {"Id","Nombre","Apellidos","Username","Email","Role","Tipo Trabajador"};
+		
 		
 		usuariosTableModel = new DefaultTableModel(columnas,0) {
 			@Override
