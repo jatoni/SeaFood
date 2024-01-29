@@ -1,19 +1,17 @@
 package com.mx.sea.food.views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import java.awt.FlowLayout;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JTextField;
 
 import com.mx.sea.food.controllers.RegisterController;
 import com.mx.sea.food.dto.EmployeeDto;
+import com.mx.sea.food.dto.RoleDto;
 import com.mx.sea.food.entity.TbRole;
-import com.mx.sea.food.entity.TbTypework;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -23,23 +21,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import net.miginfocom.swing.MigLayout;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
 import java.awt.Rectangle;
@@ -47,18 +32,18 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
-import java.awt.Window.Type;
-import javax.swing.border.LineBorder;
-import javax.xml.registry.infomodel.User;
 import javax.swing.ImageIcon;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class Register {
-
-	private JFrame frame;
+public class Register extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final Component 
+												TypeWorkCombo = null;
 	private EmployeeDto employee;
-
 	private RegisterController _registroController;
 	private JTextField Nombres;
 	private JTextField Apellidos;
@@ -67,29 +52,21 @@ public class Register {
 	private JPasswordField Password;
 	private JPasswordField ConfirmarPassword;
 	private JComboBox ComboRol;
-
-	/**
-	 * Launch the application.
-	 */
-	public void run() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Register window = new Register();
-					window.frame.setLocationRelativeTo(null);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private boolean editMode;
+	private JButton btnNewButton;
+	private List<TbRole> roles;
+	private List<String> rolesName;
+	private List<String> typesName;
 
 	/**
 	 * Create the application.
 	 */
 	public Register() {
-		initialize();
+		try {
+			initialize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -98,12 +75,13 @@ public class Register {
 	private void initialize() {
 		_registroController = new RegisterController();
 		this.employee = new EmployeeDto();
-		frame = new JFrame("Register");
-		frame.setUndecorated(true);
-		frame.setType(Type.POPUP);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 629, 407);
+
+		this.setLocationRelativeTo(null);
+		this.setUndecorated(true);
+		this.setType(Type.POPUP);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setResizable(false);
+		this.setBounds(100, 100, 629, 407);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(new Rectangle(5, 5, 0, 0));
@@ -188,8 +166,8 @@ public class Register {
 		ConfirmarPassword.setBackground(SystemColor.window);
 
 		JComboBox IdRol = null;
-		List<TbRole> roles = _registroController.getRoleList();
-		List<String> rolesName = new ArrayList<String>();
+		roles = _registroController.getRoleList();
+		rolesName = new ArrayList<String>();
 		roles.forEach(rol -> rolesName.add(rol.getName()));
 		ComboRol = new JComboBox(rolesName.toArray());
 		ComboRol.setToolTipText("Escoge un rol\r\n");
@@ -197,22 +175,13 @@ public class Register {
 
 		JLabel lblNewLabel_3_1_1_1_1_1 = new JLabel("Rol:");
 
-		JLabel lblNewLabel_3_1_1_1_1_1_1 = new JLabel("Type Work:");
+		
 
-		List<TbTypework> types = _registroController.getTypeWorkList();
-		List<String> typesName = new ArrayList<String>();
-		types.forEach(type -> typesName.add(type.getName()));
-		JComboBox TypeWorkCombo = new JComboBox(typesName.toArray());
-		TypeWorkCombo.setToolTipText("Escoge tu rol de trabajo");
-
-		TypeWorkCombo.setBorder(null);
-
-		JButton btnNewButton = new JButton("Registrar");
+		btnNewButton = new JButton("Registrar");
+		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Nombres.getText().isEmpty() || Apellidos.getText().isEmpty() || Username.getText().isEmpty()
-						|| Email.getText().isEmpty() || Password.getText().isEmpty()
-						|| ConfirmarPassword.getText().isEmpty()) {
+				if (validateForm()) {
 					JOptionPane.showMessageDialog(null, "No puedes dejar ni un espacio en blanco", "Mensajes vacios",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
@@ -224,14 +193,15 @@ public class Register {
 						employee.setUsername(Username.getText());
 						employee.setLastName(Apellidos.getText());
 						employee.setEmail(Email.getText());
-						employee.setPass(Password.getText());
-						employee.setIdRole(roles.get(ComboRol.getSelectedIndex()).getId());
-						employee.setIdTypeWork(types.get(TypeWorkCombo.getSelectedIndex()).getId());
+						employee.setPassword(Password.getText());
+						employee.setTbRole(roles.get(ComboRol.getSelectedIndex()));
 						if (_registroController.Registrarse(employee)) {
 							JOptionPane.showMessageDialog(null,
 									"El Usuario: " + employee.getName() + " se guardo con exito", "No se guardo",
 									JOptionPane.INFORMATION_MESSAGE);
 							vaciarCeldas();
+							dispose();
+							if(!editMode) new Login().setVisible(true);
 						} else {
 							JOptionPane.showMessageDialog(null,
 									"Hubo un problema al guardar el Usuario: " + employee.getName(), "No se guardo",
@@ -246,103 +216,101 @@ public class Register {
 		JButton btnNewButton_1 = new JButton("Cancelar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				if(editMode) {
+					
+					dispose();
+				}else {
+					new Login().setVisible(true);
+					dispose();
+				}
 			}
 		});
 		btnNewButton_1.setBorder(UIManager.getBorder("Button.border"));
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel
-								.createSequentialGroup().addGap(39)
-								.addGroup(
-										gl_panel.createParallelGroup(Alignment.TRAILING)
-												.addGroup(gl_panel.createSequentialGroup().addComponent(lblNewLabel)
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addComponent(Nombres, GroupLayout.PREFERRED_SIZE, 152,
-																GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel
-														.createParallelGroup(Alignment.TRAILING)
-														.addComponent(lblNewLabel_3_1_1_1, GroupLayout.PREFERRED_SIZE,
-																78, GroupLayout.PREFERRED_SIZE)
-														.addComponent(lblNewLabel_3_1_1).addComponent(lblNewLabel_3_1)
-														.addComponent(lblNewLabel_3)
-														.addComponent(lblNewLabel_3_1_1_1_1_1,
-																GroupLayout.PREFERRED_SIZE, 37,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(lblNewLabel_3_1_1_1_1))
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-																.addGroup(gl_panel
-																		.createParallelGroup(Alignment.LEADING, false)
-																		.addComponent(Apellidos,
-																				GroupLayout.DEFAULT_SIZE, 152,
-																				Short.MAX_VALUE)
-																		.addComponent(Username,
-																				GroupLayout.DEFAULT_SIZE, 152,
-																				Short.MAX_VALUE)
-																		.addComponent(Email, GroupLayout.DEFAULT_SIZE,
-																				152, Short.MAX_VALUE)
-																		.addComponent(Password,
-																				GroupLayout.DEFAULT_SIZE, 152,
-																				Short.MAX_VALUE)
-																		.addComponent(ConfirmarPassword,
-																				GroupLayout.DEFAULT_SIZE, 152,
-																				Short.MAX_VALUE))
-																.addComponent(ComboRol, 0, 152, Short.MAX_VALUE))))
-								.addGap(95))
-						.addGroup(Alignment.LEADING,
-								gl_panel.createSequentialGroup().addGap(81).addComponent(lblNewLabel_3_1_1_1_1_1_1)
-										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(TypeWorkCombo,
-												GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING,
-						gl_panel.createSequentialGroup().addContainerGap(125, Short.MAX_VALUE)
-								.addComponent(btnNewButton).addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnNewButton_1).addGap(85))
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup().addContainerGap(324, Short.MAX_VALUE)
-						.addComponent(lblNewLabel_1).addGap(66)));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
-				.createSequentialGroup().addContainerGap().addComponent(lblNewLabel_1).addGap(51)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(39)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblNewLabel)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(Nombres, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblNewLabel_3_1_1_1, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_3_1_1)
+								.addComponent(lblNewLabel_3_1)
+								.addComponent(lblNewLabel_3)
+								.addComponent(lblNewLabel_3_1_1_1_1_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_3_1_1_1_1))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(Apellidos, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+									.addComponent(Username, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+									.addComponent(Email, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+									.addComponent(Password, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+									.addComponent(ConfirmarPassword, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+								.addComponent(ComboRol, 0, 152, Short.MAX_VALUE))))
+					.addContainerGap(93, Short.MAX_VALUE))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap(153, Short.MAX_VALUE)
+					.addComponent(btnNewButton)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_1)
+					.addGap(85))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap(320, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_1)
+					.addGap(66))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel_1)
+					.addGap(51)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel.createSequentialGroup()
-								.addComponent(Nombres, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 6, GroupLayout.PREFERRED_SIZE)))
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addComponent(lblNewLabel_3).addComponent(
-						Apellidos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addComponent(lblNewLabel_3_1).addComponent(
-						Username, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addComponent(lblNewLabel_3_1_1).addComponent(
-						Email, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(Password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
+							.addComponent(Nombres, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 6, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblNewLabel_3)
+						.addComponent(Apellidos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblNewLabel_3_1)
+						.addComponent(Username, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblNewLabel_3_1_1)
+						.addComponent(Email, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(Password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_3_1_1_1))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addComponent(lblNewLabel_3_1_1_1_1)
-						.addComponent(ConfirmarPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addGap(11)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addComponent(lblNewLabel_3_1_1_1_1_1)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblNewLabel_3_1_1_1_1)
+						.addComponent(ConfirmarPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(11)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblNewLabel_3_1_1_1_1_1)
 						.addComponent(ComboRol, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(TypeWorkCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_3_1_1_1_1_1_1))
-				.addGap(27).addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(btnNewButton)
+					.addGap(52)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnNewButton)
 						.addComponent(btnNewButton_1))
-				.addContainerGap(51, Short.MAX_VALUE)));
+					.addContainerGap(59, Short.MAX_VALUE))
+		);
 		panel.setLayout(gl_panel);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.activeCaption);
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(this.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
@@ -377,7 +345,7 @@ public class Register {
 						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(88, Short.MAX_VALUE)));
 		panel_1.setLayout(gl_panel_1);
-		frame.getContentPane().setLayout(groupLayout);
+		this.getContentPane().setLayout(groupLayout);
 
 	}
 
@@ -389,5 +357,33 @@ public class Register {
 		Password.setText("");
 		ConfirmarPassword.setText("");
 
+	}
+	
+	public boolean validateForm() {
+		return (Nombres.getText().isEmpty() || Apellidos.getText().isEmpty() || Username.getText().isEmpty()
+				|| Email.getText().isEmpty() || Password.getText().isEmpty()
+				|| ConfirmarPassword.getText().isEmpty());
+	}
+
+	public void setEditMode(EmployeeDto editEmployee) {
+		this.editMode = true;
+		Nombres.setText(editEmployee.getName());
+		Apellidos.setText(editEmployee.getLastName());
+		Email.setText(editEmployee.getEmail());
+		Username.setText(editEmployee.getUsername());
+		Password.setText(editEmployee.getPassword());
+		ConfirmarPassword.setText(editEmployee.getPassword());
+		
+		for(TbRole rol : roles) {
+			if(rol.getId() == editEmployee.getTbRole().getId()) {
+				ComboRol.setSelectedItem(rol.getName());
+				break;
+			}
+		}
+		employee.setId(editEmployee.getId());
+		employee.setTbRole(editEmployee.getTbRole());
+		
+		btnNewButton.setText("Editar Usuario: "+ editEmployee.getUsername());
+		
 	}
 }

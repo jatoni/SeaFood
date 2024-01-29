@@ -23,9 +23,9 @@ public class TbPiecepackage implements Serializable {
 
 	private String type;
 
-	//bi-directional many-to-one association to TbItem
-	@OneToMany(mappedBy="tbPiecepackage")
-	private List<TbItem> tbItems;
+	//bi-directional many-to-one association to TbProduct
+	@OneToMany(mappedBy="tbPiecepackage", fetch=FetchType.EAGER)
+	private List<TbProduct> tbProducts;
 
 	public TbPiecepackage() {
 	}
@@ -54,26 +54,26 @@ public class TbPiecepackage implements Serializable {
 		this.type = type;
 	}
 
-	public List<TbItem> getTbItems() {
-		return this.tbItems;
+	public List<TbProduct> getTbProducts() {
+		return this.tbProducts;
 	}
 
-	public void setTbItems(List<TbItem> tbItems) {
-		this.tbItems = tbItems;
+	public void setTbProducts(List<TbProduct> tbProducts) {
+		this.tbProducts = tbProducts;
 	}
 
-	public TbItem addTbItem(TbItem tbItem) {
-		getTbItems().add(tbItem);
-		tbItem.setTbPiecepackage(this);
+	public TbProduct addTbProduct(TbProduct tbProduct) {
+		getTbProducts().add(tbProduct);
+		tbProduct.setTbPiecepackage(this);
 
-		return tbItem;
+		return tbProduct;
 	}
 
-	public TbItem removeTbItem(TbItem tbItem) {
-		getTbItems().remove(tbItem);
-		tbItem.setTbPiecepackage(null);
+	public TbProduct removeTbProduct(TbProduct tbProduct) {
+		getTbProducts().remove(tbProduct);
+		tbProduct.setTbPiecepackage(null);
 
-		return tbItem;
+		return tbProduct;
 	}
 
 }
