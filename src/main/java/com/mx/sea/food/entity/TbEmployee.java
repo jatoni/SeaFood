@@ -2,7 +2,6 @@ package com.mx.sea.food.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -29,24 +28,12 @@ public class TbEmployee implements Serializable {
 
 	private String username;
 
-	//bi-directional many-to-one association to TbRole
+	// bi-directional many-to-one association to TbRole
 	@ManyToOne
-	@JoinColumn(name="id_role")
+	@JoinColumn(name = "id_role")
 	private TbRole tbRole;
 
-	//bi-directional many-to-one association to TbMovement
-	@OneToMany(mappedBy="tbEmployee")
-	private List<TbMovement> tbMovements;
-
 	public TbEmployee() {
-	}
-
-	public long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getEmail() {
@@ -55,6 +42,14 @@ public class TbEmployee implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getLastName() {
@@ -95,28 +90,6 @@ public class TbEmployee implements Serializable {
 
 	public void setTbRole(TbRole tbRole) {
 		this.tbRole = tbRole;
-	}
-
-	public List<TbMovement> getTbMovements() {
-		return this.tbMovements;
-	}
-
-	public void setTbMovements(List<TbMovement> tbMovements) {
-		this.tbMovements = tbMovements;
-	}
-
-	public TbMovement addTbMovement(TbMovement tbMovement) {
-		getTbMovements().add(tbMovement);
-		tbMovement.setTbEmployee(this);
-
-		return tbMovement;
-	}
-
-	public TbMovement removeTbMovement(TbMovement tbMovement) {
-		getTbMovements().remove(tbMovement);
-		tbMovement.setTbEmployee(null);
-
-		return tbMovement;
 	}
 
 }

@@ -24,7 +24,7 @@ public class TbPiecepackage implements Serializable {
 	private String type;
 
 	//bi-directional many-to-one association to TbProduct
-	@OneToMany(mappedBy="tbPiecepackage")
+	@OneToMany(mappedBy="tbPiecepackage", fetch=FetchType.EAGER)
 	private List<TbProduct> tbProducts;
 
 	public TbPiecepackage() {

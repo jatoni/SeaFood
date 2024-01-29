@@ -39,8 +39,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 		TbEmployee employee = map(employeeDto, TBEM_EMPLOYEE);
 		if (existEmployee == null)
-			employee.setId(0);
-		employee.setTbRole(this.roleDao.findById(employeeDto.getIdRole()));
+			employee.setId(0L);
+		employee.setTbRole(this.roleDao.findById(employeeDto.getTbRole().getId()));
 		
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et = em.getTransaction();

@@ -1,72 +1,73 @@
 package com.mx.sea.food.views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 
 import com.mx.sea.food.controllers.DashboardController;
+import com.mx.sea.food.controllers.RegisterProductController;
 import com.mx.sea.food.dto.EmployeeDto;
-import com.mx.sea.food.tools.ButtonColumn;
+import com.mx.sea.food.dto.ProductDto;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
-
-
-
-import java.util.List;
-
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-
-
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 
-public class Dashboard extends JFrame{
+public class Dashboard extends JFrame {
 
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	String[] columnas = {"Id","Nombre","Apellidos","Username","Email","Role"};
 	
-	private EmployeeDto _employee;
-	private DefaultTableModel usuariosTableModel;
-	private DashboardController _dashboardController;
-	private JTable userTable;
-	private JPanel userPanel;
-	private JButton userButton;
-	private JLabel usuariosLabel;
-	private EmployeeDto _editEmployee;
-	private boolean userEditMode;
+	private EmployeeDto employee;
+	private DefaultTableModel dashboardTableModel;
+	private DashboardController dashboardController;
+	private JTable dashboardTable;
+	private JPanel dashboardPanel;
+	private JButton dashboardButton;
+	private String ventana;
+	private JLabel dashboardLabel;
+	private EmployeeDto editEmployee;
+	private ProductDto editProduct;
+	private boolean dashboardEditMode;
 	private List<EmployeeDto> employeesList;
-	private JButton userDeleteButton;
-	private JButton userCancelButton;
+	private List<ProductDto> productList;
+	private JButton dashboardDeleteButton;
+	private JButton dashboardCancelButton;
 	private long userId;
 	JMenuBar mb;
 	JMenu menu;
 	JMenuItem usuarios;
 	JMenuItem productos;
 	GroupLayout groupLayout;
-	GroupLayout gl_userPanel;
-	
-	
+	GroupLayout gl_dashboardPanel;
+	Object[][] data = {};
+	String[] titulos = { "id", "Producto", "Fecha de Ingreso", "Tipos de producto", "Stock" };
+	private JTable productostable;
+	private DefaultTableModel productosmodeloTable;
+	private RegisterProductController registerProductController;
 
 	/**
 	 * Create the application.
@@ -75,7 +76,14 @@ public class Dashboard extends JFrame{
 		try {
 			this.set_employee(employee);
 			initialize();
-			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Dashboard() {
+		try {
+			initialize();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,8 +93,10 @@ public class Dashboard extends JFrame{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		_dashboardController = new DashboardController();
+		dashboardController = new DashboardController();
 		
+		registerProductController = new RegisterProductController();
+		productostable = new JTable();
 		this.setBounds(100, 100, 770, 510);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -106,6 +116,7 @@ public class Dashboard extends JFrame{
 		usuarios = new JMenuItem("Usuarios");
 		usuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ventana = "USUARIOS";
 				showUsuariosSection();
 			}
 		});
@@ -114,23 +125,24 @@ public class Dashboard extends JFrame{
 		productos = new JMenuItem("Productos");
 		productos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				hiddeUsuariosSection();
+				ventana = "PRODUCTOS";
+				showProductsSection();
 			}
 		});
 		menu.add(productos);
 	}
 	
 	private void configureUsuarioPanel() {
-		userPanel = new JPanel();
-		userPanel.setVisible(false);
+		dashboardPanel = new JPanel();
+		dashboardPanel.setVisible(false);
 		groupLayout = new GroupLayout(this.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(userPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
+				.addComponent(dashboardPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(userPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+				.addComponent(dashboardPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
 		);
 		
 		
@@ -140,47 +152,46 @@ public class Dashboard extends JFrame{
 		
 		
 		
-		gl_userPanel = new GroupLayout(userPanel);
-		gl_userPanel.setHorizontalGroup(
-			gl_userPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_userPanel.createSequentialGroup()
+		gl_dashboardPanel = new GroupLayout(dashboardPanel);
+		gl_dashboardPanel.setHorizontalGroup(
+			gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_dashboardPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_userPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(userTable, GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
-						.addComponent(usuariosLabel)
-						.addGroup(Alignment.TRAILING, gl_userPanel.createSequentialGroup()
-							.addComponent(userCancelButton)
+					.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(dashboardTable, GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+						.addComponent(dashboardLabel)
+						.addGroup(gl_dashboardPanel.createSequentialGroup()
+							.addComponent(dashboardCancelButton)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(userDeleteButton)
+							.addComponent(dashboardDeleteButton)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(userButton)))
+							.addComponent(dashboardButton)))
 					.addContainerGap())
 		);
-		gl_userPanel.setVerticalGroup(
-			gl_userPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_userPanel.createSequentialGroup()
+		gl_dashboardPanel.setVerticalGroup(
+			gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_dashboardPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(usuariosLabel)
+					.addComponent(dashboardLabel)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(userTable, GroupLayout.PREFERRED_SIZE, 345, GroupLayout.PREFERRED_SIZE)
+					.addComponent(dashboardTable, GroupLayout.PREFERRED_SIZE, 345, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_userPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(userButton)
-						.addComponent(userDeleteButton)
-						.addComponent(userCancelButton))
+					.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(dashboardButton)
+						.addComponent(dashboardDeleteButton)
+						.addComponent(dashboardCancelButton))
 					.addContainerGap(41, Short.MAX_VALUE))
 		);
-		userPanel.setLayout(gl_userPanel);
+		dashboardPanel.setLayout(gl_dashboardPanel);
 		
 		this.getContentPane().setLayout(groupLayout);
 	}
 	private void showUsuariosSection() {
-		
-		userPanel.setVisible(true);
-		
-		
-		if(usuariosTableModel.getRowCount() <= 0) {
-			employeesList = _dashboardController.searchEmployees();
+		dashboardPanel.setVisible(true);
+		dashboardLabel.setText("Panel de usuarios");
+		cleanTable();
+		if(dashboardTableModel.getRowCount() <= 0) {
+			employeesList = dashboardController.searchEmployees();
 			
 			if(!employeesList.isEmpty()) {
 				
@@ -191,89 +202,139 @@ public class Dashboard extends JFrame{
 							employee.getLastName(), 
 							employee.getUsername(),
 							employee.getEmail(),
-							employee.getIdRole(),
-							employee.getIdTypeWork()
+							employee.getTbRole().getId(),
 							};
-					usuariosTableModel.addRow(tableEmployee);
+					dashboardTableModel.addRow(tableEmployee);
 				});
 				
-				usuariosTableModel.fireTableDataChanged();
+				dashboardTableModel.fireTableDataChanged();
 			}else {
+				cleanTable();
 				JOptionPane.showMessageDialog(null, "No hay usuarios en la base de datos", "Lista vacia", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
 	}
-	private void hiddeUsuariosSection() {
-		userPanel.setVisible(false);
+	private void showProductsSection() {
+		dashboardPanel.setVisible(true);
+		dashboardLabel.setText("Panel de products");
+		cleanTable();
+		if(dashboardTableModel.getRowCount() <= 0) {
+			productList = dashboardController.searchProducts();
+			if(!productList.isEmpty()) {
+				productList.forEach(product -> {
+					Object[] tableProduct = {
+						product.getId(),
+						product.getItemName(),
+						product.getDescription(),
+						product.getStock()
+					};
+					dashboardTableModel.addRow(tableProduct);
+				});
+				dashboardTableModel.fireTableDataChanged();
+			}
+			
+		}else {
+			cleanTable();
+			dashboardLabel.setText("Vacio");
+			JOptionPane.showMessageDialog(null, "No hay productos en la base de datos", "Lista vacia", JOptionPane.ERROR_MESSAGE);
+		}
+//		modifyTableModel(titulos);
+		
 		
 	}
+	private void cleanTable() {
+		dashboardTableModel.setRowCount(0);
+		dashboardTableModel.fireTableDataChanged();
+	}
+
 	private void configureUsuariosComponents() {
 		
-		userEditMode = false;
-		usuariosLabel = new JLabel("Usuarios");
-		usuariosLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		dashboardEditMode = false;
+		dashboardLabel = new JLabel("Usuarios");
+		dashboardLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		
 		
-		usuariosTableModel = new DefaultTableModel(columnas,0) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
+		modifyTableModel(columnas);
 		
-		userTable = new JTable(usuariosTableModel);
-		userTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		userTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		dashboardTable = new JTable(dashboardTableModel);
+		dashboardTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		dashboardTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 	
-                    if(userTable.getSelectedRow() != -1) {
-                    	userId = (long)usuariosTableModel.getValueAt(userTable.getSelectedRow(), 0);
-                    	_editEmployee = employeesList.stream().filter(employee -> employee.getId() == userId).findFirst().orElse(new EmployeeDto());
-                    	userEditMode = true;
-                    	userCancelButton.setVisible(true);
-                    	userDeleteButton.setVisible(true);
-                    	userButton.setText("Editar");
+                    if(dashboardTable.getSelectedRow() != -1) {
+                    	switch(ventana) {
+                    	case "USUARIOS":
+                    		userId = (long) dashboardTableModel.getValueAt(dashboardTable.getSelectedRow(), 0);
+                        	editEmployee = employeesList.stream().filter(employee -> employee.getId() == userId).findFirst().orElse(new EmployeeDto());
+                        	showEditModeButtons();
+                    		break;
+                    	case "PRODUCTOS":
+                    		userId = (long) dashboardTableModel.getValueAt(dashboardTable.getSelectedRow(), 0);
+                    		editProduct = productList.stream().filter(product -> product.getId() == userId).findFirst().orElse(new ProductDto());
+                    		showEditModeButtons();
+                    		break;
+                    	case "MOVIMIENTOS":
+                    		break;
+                    	}
+                    	
                     }
                     
                 
             }
         });
 		
-		userButton = new JButton("Nuevo");
-		userButton.addActionListener(new ActionListener() {
+		dashboardButton = new JButton("Nuevo");
+		dashboardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(userEditMode) {
-					if(_editEmployee.getId() != 0) {
-						usuariosTableModel.setNumRows(0);
-						usuariosTableModel.fireTableDataChanged();
-						userPanel.setVisible(false);
-						Register editView = new Register();
-						editView.setVisible(true);
-						editView.setEditMode(_editEmployee);
+				switch(ventana) {
+				case "USUARIOS":
+					if(dashboardEditMode) {
+						if(editEmployee.getId() != 0) {
+							cleanTable();
+							Register editView = new Register();
+							editView.setVisible(true);
+							editView.setEditMode(editEmployee);
+							dispose();
+						}
+					}else {
+						new Register().setVisible(true);
 						dispose();
 					}
-				}else {
-					new Register().setVisible(true);
-					dispose();
+					break;
+				case "PRODUCTOS":
+					if(dashboardEditMode) {
+						if(editProduct.getId() != 0) {
+							cleanTable();
+							RegisterNewProduct registerNewProduct = new RegisterNewProduct(employee);
+							registerNewProduct.setVisible(true);
+							registerNewProduct.setEditMode(editProduct);
+							dispose();
+						}else {
+							new RegisterNewProduct(employee).setVisible(true);
+							dispose();
+						}
+					}
+					break;
 				}
+				
 				
 			}
 		});
 		
-		userDeleteButton = new JButton("Borrar");
-		userDeleteButton.addActionListener(new ActionListener() {
+		dashboardDeleteButton = new JButton("Borrar");
+		dashboardDeleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int cancelResult = JOptionPane.showConfirmDialog(null, "¿Seguro que deseas borrar el usuario?", "Borrar Usuario", JOptionPane.OK_CANCEL_OPTION);
 				if(cancelResult == JOptionPane.OK_OPTION) {
 					if(userId > 0) {
-						if(_dashboardController.deleteEmployeeById(userId)) {
+						if(dashboardController.deleteEmployeeById(userId)) {
 							JOptionPane.showMessageDialog(null, "Usuario Borrado Correctamente", "Usuario Borrado", JOptionPane.PLAIN_MESSAGE);
-							usuariosTableModel.setNumRows(0);
-							usuariosTableModel.fireTableDataChanged();
+							dashboardTableModel.setNumRows(0);
+							dashboardTableModel.fireTableDataChanged();
 							showUsuariosSection();
 						}else {
 							
@@ -287,22 +348,40 @@ public class Dashboard extends JFrame{
 			}
 		});
 		
-		userCancelButton = new JButton("Cancelar");
-		userCancelButton.setVisible(false);
-		userCancelButton.addActionListener(new ActionListener() {
+		dashboardCancelButton = new JButton("Cancelar");
+		dashboardCancelButton.setVisible(false);
+		dashboardCancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				userTable.clearSelection();
-				userEditMode = false;
-				userButton.setText("Nuevo");
-				userDeleteButton.setVisible(false);
-				userCancelButton.setVisible(false);
+				dashboardTable.clearSelection();
+				dashboardEditMode = false;
+				dashboardButton.setText("Nuevo");
+				dashboardDeleteButton.setVisible(false);
+				dashboardCancelButton.setVisible(false);
 			}
 		});
 	}
+	
+	public void modifyTableModel(String[] columnas){
+		dashboardTableModel = new DefaultTableModel(columnas,0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
+	}
+	
+	private void showEditModeButtons(){
+		dashboardEditMode = true;
+		dashboardCancelButton.setVisible(true);
+    	dashboardDeleteButton.setVisible(true);
+    	dashboardButton.setText("Editar");
+	}
+	
 	public EmployeeDto get_employee() {
-		return _employee;
+		return employee;
 	}
 	public void set_employee(EmployeeDto _employee) {
-		this._employee = _employee;
+		this.employee = _employee;
 	}
 }

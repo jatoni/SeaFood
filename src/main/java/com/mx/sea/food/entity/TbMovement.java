@@ -3,6 +3,7 @@ package com.mx.sea.food.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.math.BigInteger;
 
 
 /**
@@ -23,20 +24,14 @@ public class TbMovement implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
-	//bi-directional many-to-one association to TbEmployee
-	@ManyToOne
-	@JoinColumn(name="id_employee")
-	private TbEmployee tbEmployee;
+	@Column(name="id_employee")
+	private BigInteger idEmployee;
 
-	//bi-directional many-to-one association to TbProduct
-	@ManyToOne
-	@JoinColumn(name="id_product")
-	private TbProduct tbProduct;
+	@Column(name="id_product")
+	private BigInteger idProduct;
 
-	//bi-directional many-to-one association to TbTypemovement
-	@ManyToOne
-	@JoinColumn(name="id_type")
-	private TbTypemovement tbTypemovement;
+	@Column(name="id_type")
+	private BigInteger idType;
 
 	public TbMovement() {
 	}
@@ -57,28 +52,28 @@ public class TbMovement implements Serializable {
 		this.date = date;
 	}
 
-	public TbEmployee getTbEmployee() {
-		return this.tbEmployee;
+	public BigInteger getIdEmployee() {
+		return this.idEmployee;
 	}
 
-	public void setTbEmployee(TbEmployee tbEmployee) {
-		this.tbEmployee = tbEmployee;
+	public void setIdEmployee(BigInteger idEmployee) {
+		this.idEmployee = idEmployee;
 	}
 
-	public TbProduct getTbProduct() {
-		return this.tbProduct;
+	public BigInteger getIdProduct() {
+		return this.idProduct;
 	}
 
-	public void setTbProduct(TbProduct tbProduct) {
-		this.tbProduct = tbProduct;
+	public void setIdProduct(BigInteger idProduct) {
+		this.idProduct = idProduct;
 	}
 
-	public TbTypemovement getTbTypemovement() {
-		return this.tbTypemovement;
+	public BigInteger getIdType() {
+		return this.idType;
 	}
 
-	public void setTbTypemovement(TbTypemovement tbTypemovement) {
-		this.tbTypemovement = tbTypemovement;
+	public void setIdType(BigInteger idType) {
+		this.idType = idType;
 	}
 
 }

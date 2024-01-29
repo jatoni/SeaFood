@@ -2,7 +2,6 @@ package com.mx.sea.food.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -21,10 +20,6 @@ public class TbTypemovement implements Serializable {
 
 	private String name;
 
-	//bi-directional many-to-one association to TbMovement
-	@OneToMany(mappedBy="tbTypemovement")
-	private List<TbMovement> tbMovements;
-
 	public TbTypemovement() {
 	}
 
@@ -42,28 +37,6 @@ public class TbTypemovement implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public List<TbMovement> getTbMovements() {
-		return this.tbMovements;
-	}
-
-	public void setTbMovements(List<TbMovement> tbMovements) {
-		this.tbMovements = tbMovements;
-	}
-
-	public TbMovement addTbMovement(TbMovement tbMovement) {
-		getTbMovements().add(tbMovement);
-		tbMovement.setTbTypemovement(this);
-
-		return tbMovement;
-	}
-
-	public TbMovement removeTbMovement(TbMovement tbMovement) {
-		getTbMovements().remove(tbMovement);
-		tbMovement.setTbTypemovement(null);
-
-		return tbMovement;
 	}
 
 }
