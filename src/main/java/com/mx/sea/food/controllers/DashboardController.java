@@ -21,6 +21,7 @@ public class DashboardController {
 		this.employeeDaoImpl = new EmployeeDaoImpl();
 		this.productDaoImpl = new ProductsDaoImpl();
 	}
+
 	public List<EmployeeDto> searchEmployees() {
 		List<TbEmployee> employeeList = employeeDaoImpl.getAllEmployees();
 		if (employeeList.isEmpty())
@@ -39,27 +40,28 @@ public class DashboardController {
 			newEmployee.setId(employee.getId());
 			newEmployeeList.add(newEmployee);
 		});
-		
+
 		return newEmployeeList;
 	}
-	
+
 	public List<ProductDto> searchProducts() {
-		List<TbProduct>productList = this.productDaoImpl.getAllProducts();
-		if (productList.isEmpty()) return new ArrayList<ProductDto>();
-		
+		List<TbProduct> productList = this.productDaoImpl.getAllProducts();
+		if (productList.isEmpty())
+			return new ArrayList<ProductDto>();
+
 		List<ProductDto> newProductList = new ArrayList<ProductDto>();
-		
+
 		productList.forEach(product -> {
 			ProductDto newProduct = new ProductDto();
 			newProduct.setDescription(product.getDescription());
 			newProduct.setId(product.getId());
-			newProduct.setItemName(product.getName());
-			newProduct.setStock(product.getCurrentStock());
+			newProduct.setName(product.getName());
+			newProduct.setCurrentStock(product.getCurrentStock());
 			newProductList.add(newProduct);
 		});
 		return newProductList;
 	}
-	
+
 	public boolean deleteEmployeeById(long id) {
 		return employeeDaoImpl.deleteEmployeeById(id);
 	}

@@ -117,10 +117,10 @@ public class RegisterProducts extends JFrame {
 					if (isNumeric(cantidad.getText())) {
 						TbEmployee employeeToSave = ToolsSeaFood.map(employeeDto, employee);
 
-						ProductDto productToSave = new ProductDto(descripcion.getText(), fechaSeleccionado,
-								Integer.parseInt(cantidad.getText()), nombreProducto.getText(), employeeToSave,
-								paquetes.get(paquete.getSelectedIndex()));
-						itemController.saveProduct(productToSave);
+//						ProductDto productToSave = new ProductDto(descripcion.getText(), fechaSeleccionado,
+//								Integer.parseInt(cantidad.getText()), nombreProducto.getText(), employeeToSave,
+//								paquetes.get(paquete.getSelectedIndex()));
+//						itemController.saveProduct(productToSave);
 					} else {
 						JOptionPane.showMessageDialog(null, "No se acepta letras o caracteres especiales en cantidad",
 								"Error de cantidad", JOptionPane.ERROR_MESSAGE);

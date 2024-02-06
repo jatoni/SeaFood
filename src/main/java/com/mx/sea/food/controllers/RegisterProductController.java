@@ -30,17 +30,18 @@ public class RegisterProductController {
 	}
 
 	public List<ProductDto> searchProducts() {
-		List<TbProduct>productList = this.productDaoImpl.getAllProducts();
-		if (productList.isEmpty()) return new ArrayList<>();
-		
+		List<TbProduct> productList = this.productDaoImpl.getAllProducts();
+		if (productList.isEmpty())
+			return new ArrayList<>();
+
 		List<ProductDto> newProductList = new ArrayList<>();
-		
+
 		productList.forEach(product -> {
 			ProductDto newProduct = new ProductDto();
 			newProduct.setDescription(product.getDescription());
 			newProduct.setId(product.getId());
-			newProduct.setItemName(product.getName());
-			newProduct.setStock(product.getCurrentStock());
+			newProduct.setName(product.getName());
+			newProduct.setCurrentStock(product.getCurrentStock());
 			newProductList.add(newProduct);
 		});
 		return newProductList;

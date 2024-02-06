@@ -23,6 +23,8 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RegisterNewProduct extends JFrame {
 
@@ -70,11 +72,17 @@ public class RegisterNewProduct extends JFrame {
 		JLabel lblNewLabel_7 = new JLabel("Empleado que Registra");
 
 		textField_1 = new JTextField();
-		textField_1.setText("<dynamic> <dynamic>");
+		textField_1.setText(this.employeeDto.getName() + " " + this.employeeDto.getLastName());
 		textField_1.setEnabled(false);
 		textField_1.setColumns(10);
 
 		JButton btnNewButton = new JButton("Gaurdar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Dashboard(employeeDto).setVisible(true);
+				closeWindow();
+			}
+		});
 
 		JButton btnNewButton_1 = new JButton("Cancelar");
 
@@ -92,14 +100,14 @@ public class RegisterNewProduct extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("Nombre del Producto");
 
 		JLabel lblNewLabel_2 = new JLabel("Descripcion");
-		
+
 		List<ProductDto> productosList = this.registerProductController.searchProducts();
 
-		List<String> productosName = new ArrayList<String>();
+		List<String> productosName = new ArrayList<>();
 
-		productosList.forEach(paqueteFor -> productosName.add(paqueteFor.getItemName()));
+		productosList.forEach(paqueteFor -> productosName.add(paqueteFor.getName()));
 
-		JComboBox productosCombo = new JComboBox(productosList.toArray());
+		JComboBox productosCombo = new JComboBox(productosName.toArray());
 
 		productosCombo.setToolTipText("Escoge el producto");
 		productosCombo.setBorder(null);
@@ -180,9 +188,11 @@ public class RegisterNewProduct extends JFrame {
 	public void setEmployeeDto(EmployeeDto employeeDto) {
 		this.employeeDto = employeeDto;
 	}
+
 	public void setEditMode(ProductDto product) {
-		
+
 	}
+
 	private void closeWindow() {
 		this.setVisible(false);
 	}
